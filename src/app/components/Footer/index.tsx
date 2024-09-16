@@ -117,7 +117,7 @@ const Footer = () => {
                     }}
                     className="bg-[#0f172a] text-white font-bold rounded-md text-xs"
                   />
-                   <Select
+                  <Select
                     options={[
                       { value: "store1", label: "Store 1" },
                       { value: "store2", label: "Store 2" },
@@ -156,25 +156,25 @@ const Footer = () => {
                   <span className="mb-2">Kết nối với chúng tôi</span>
                   <div className="flex items-center gap-2">
                     <Link href="#">
-                      <Image src="/footer-icon-01.png" alt="facebook" width={50} height={50} className="size-7 rounded-full"/> 
+                      <Image src="/footer-icon-01.png" alt="facebook" width={50} height={50} className="size-7 rounded-full" />
                     </Link>
                     <Link href="#">
-                      <Image src="/footer-icon-02.png" alt="facebook" width={50} height={50} className="size-7 rounded-full"/> 
+                      <Image src="/footer-icon-02.png" alt="facebook" width={50} height={50} className="size-7 rounded-full" />
                     </Link>
                     <Link href="#">
-                      <Image src="/footer-icon-03.png" alt="facebook" width={50} height={50} className="size-7 rounded-full"/> 
+                      <Image src="/footer-icon-03.png" alt="facebook" width={50} height={50} className="size-7 rounded-full" />
                     </Link>
                     <Link href="#">
-                      <Image src="/footer-icon-04.png" alt="facebook" width={50} height={50} className="size-7 rounded-full"/> 
+                      <Image src="/footer-icon-04.png" alt="facebook" width={50} height={50} className="size-7 rounded-full" />
                     </Link>
                     <Link href="#">
-                      <Image src="/footer-icon-05.png" alt="facebook" width={50} height={50} className="size-7 rounded-full"/> 
+                      <Image src="/footer-icon-05.png" alt="facebook" width={50} height={50} className="size-7 rounded-full" />
                     </Link>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <span className="mb-2">Cửa hàng gần bạn</span>
-                
+
                 </div>
               </div>
             </div>
@@ -182,7 +182,12 @@ const Footer = () => {
         </Section>
       </div>
       <div className="bg-[#f1f5f9]">
-        <Container>2019</Container>
+        <Section>
+          <Container>
+            <span className="text-sm">© 2019. Công ty TNHH Thương mại công nghệ Bạch Long - GPDKKD: 0311767538 do sở KH & ĐT TP.HCM cấp ngày 03/05/2012
+              134 - 136 Trần Phú, Phường 4, Quận 5, TP HCM</span>
+          </Container>
+        </Section>
       </div>
     </div>
   );

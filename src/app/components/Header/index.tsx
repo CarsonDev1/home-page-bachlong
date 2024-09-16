@@ -44,7 +44,9 @@ const Header = () => {
       <div className="bg-primary relative z-20">
         <Container>
           <div className="py-2 md:py-4 flex justify-between flex-wrap md:flex-row md:flex-nowrap items-center gap-0 md:gap-4">
-            <Image src="/logo.png" alt="logo" width={160} height={50} />
+            <Link href='/'>
+              <Image src="/logo.png" alt="logo" width={160} height={50} />
+            </Link>
             <div className="items-center gap-1 bg-secondary p-3 rounded-md hidden xl:flex">
               <MdMenu className="text-xl" />
               <span className="text-xs font-bold">Danh mục</span>
