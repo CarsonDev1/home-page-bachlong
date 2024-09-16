@@ -89,7 +89,7 @@ const DetailPage = () => {
                                 </Swiper>
                             </div>
                             <div className='w-full md:w-2/3 flex flex-col gap-2'>
-                                <h1 className='text-3xl text-[#00529C] font-bold mb-4'>sss</h1>
+                                <h1 className='text-3xl text-[#00529C] font-bold mb-4'>{name}</h1>
                                 <div className='flex items-center gap-1'>
 
                                 </div>
