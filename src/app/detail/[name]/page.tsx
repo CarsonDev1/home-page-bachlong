@@ -33,13 +33,7 @@ const DetailPage = () => {
                                 >
                                     <SwiperSlide >
                                         <div className='w-full h-96 flex justify-center items-center'>
-                                            <Image
-                                                src='/product-01.webp'
-                                                alt='product-01'
-                                                width={1820}
-                                                height={1200}
-                                                className='rounded-lg w-full h-96 object-contain'
-                                            />
+                                            <iframe width="1128" height="635" src="https://www.youtube.com/embed/eDqfg_LexCQ?autoplay=1&mute=1" title="Introducing iPhone 16 Pro | Apple" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen className='object-contain'></iframe>
                                         </div>
                                     </SwiperSlide>
                                     <SwiperSlide >
