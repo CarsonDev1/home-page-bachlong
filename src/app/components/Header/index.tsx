@@ -13,6 +13,7 @@ import { BsBoxSeam } from "react-icons/bs";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "swiper/css";
+import { GiAutoRepair } from "react-icons/gi";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,18 +33,24 @@ const Header = () => {
     }
   };
 
+
   return (
-    <div className="flex flex-col">
+    <div className='flex flex-col w-full fixed z-50 transition-all duration-300 ease-in-out'>
+      <Link href='https://bachlongmobile.com/iphone-16-series' className="bg-black">
+        <Container>
+          <Image src='/header-top.webp' width={1820} height={48} alt="header-top" className="block w-full object-cover" quality={100} />
+        </Container>
+      </Link>
       <div className="bg-primary relative z-20">
         <Container>
-          <div className="py-5 flex justify-between flex-wrap md:flex-row md:flex-nowrap items-center gap-4">
+          <div className="py-2 md:py-4 flex justify-between flex-wrap md:flex-row md:flex-nowrap items-center gap-0 md:gap-4">
             <Image src="/logo.png" alt="logo" width={160} height={50} />
             <div className="items-center gap-1 bg-secondary p-3 rounded-md hidden xl:flex">
               <MdMenu className="text-xl" />
               <span className="text-xs font-bold">Danh mục</span>
             </div>
             <form
-              className="w-full max-w-full relative z-50 flex-grow md:max-w-md lg:max-w-lg xl:max-w-xl order-2 md:order-none"
+              className="w-full max-w-full relative z-50 flex-grow md:max-w-md lg:max-w-lg order-2 md:order-none"
               onClick={handleSearchClick}
             >
               <label
@@ -76,13 +83,19 @@ const Header = () => {
               )}
             </form>
             <div className="flex items-center gap-4">
+              <Link href="#" className="hidden lg:flex">
+                <div className="flex flex-col items-center">
+                  <GiAutoRepair className="text-xl" />
+                  <span className="text-xs font-semibold">Sửa chữa</span>
+                </div>
+              </Link>
               <Link href="#">
                 <div className="flex flex-col items-center">
                   <IoLocationOutline className="text-xl" />
                   <span className="text-xs font-semibold">Cửa hàng</span>
                 </div>
               </Link>
-              <Link href="#" className="hidden lg:flex">
+              <Link href="#" className="hidden xl:flex">
                 <div className="flex flex-col items-center">
                   <BsBoxSeam className="text-xl" />
                   <span className="text-xs font-semibold">Tra cứu đơn</span>
@@ -179,7 +192,7 @@ const Header = () => {
               spaceBetween={24}
               slidesPerView="auto"
               breakpoints={{
-                475: {
+                400: {
                   slidesPerView: 2,
                   spaceBetween: 20,
                 },
