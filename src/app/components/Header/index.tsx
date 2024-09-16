@@ -194,7 +194,7 @@ const Header = () => {
               spaceBetween={24}
               slidesPerView="auto"
               breakpoints={{
-                400: {
+                300: {
                   slidesPerView: 2,
                   spaceBetween: 20,
                 },

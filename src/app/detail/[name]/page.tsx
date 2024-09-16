@@ -18,7 +18,7 @@ const DetailPage = () => {
             <Section>
                 <Container>
                     <div className='flex flex-col md:flex-row gap-8'>
-                        <div className=' w-full md:w-2/4 border border-slate-300 rounded-lg p-3'>
+                        <div className=' w-full md:w-1/2 border border-slate-300 rounded-lg p-3'>
                             <Swiper
                                 spaceBetween={10}
                                 navigation={{
@@ -81,10 +81,28 @@ const DetailPage = () => {
                                 </SwiperSlide>
                             </Swiper>
                         </div>
-                        <div className='w-full md:w-2/3 flex flex-col gap-2'>
+                        <div className='w-full md:w-2/3 flex flex-col gap-4'>
                             <h1 className='text-xl font-bold mb-4'>iPhone 15 Pro Max 512GB Chính Hãng 99%</h1>
-                            <div className='flex items-center gap-1'>
-
+                            <div className='flex items-center gap-4'>
+                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
+                                    <span>256GB</span>
+                                    <span>27.000.000 VNĐ</span>
+                                </div>
+                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
+                                    <span>256GB</span>
+                                    <span>27.000.000 VNĐ</span>
+                                </div>
+                            </div>
+                            <h1 className='text-xl font-bold mb-4'>Chọn màu để xem giá và chi nhánh có hàng</h1>
+                            <div className='flex items-center gap-4'>
+                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
+                                    <span>256GB</span>
+                                    <span>27.000.000 VNĐ</span>
+                                </div>
+                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
+                                    <span>256GB</span>
+                                    <span>27.000.000 VNĐ</span>
+                                </div>
                             </div>
                             <div className='flex items-center gap-4'>
                                 <p className='text-gray-600 line-through text-2xl'>123123</p>
