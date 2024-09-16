@@ -49,6 +49,10 @@
   @apply absolute right-5 z-[15] !important;
 }
 
+.custom-rounded {
+  border-radius: 77% 23% 0% 100% / 0% 30% 70% 100%;
+}
+
 .main-swiper .swiper-slide {
   display: flex;
   justify-content: center;
