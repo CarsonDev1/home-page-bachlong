@@ -10,6 +10,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FaCartPlus, FaCheck } from 'react-icons/fa';
+import { LuTicket } from 'react-icons/lu';
+import { MdOutlineAddBox } from 'react-icons/md';
 
 const DetailPage = () => {
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
@@ -85,7 +87,7 @@ const DetailPage = () => {
                                             width={500}
                                             height={500}
                                             alt='product-01'
-                                            className='rounded-lg w-full block object-cover'
+                                            className='rounded-lg w-full h-full block object-contain'
                                         />
                                     </SwiperSlide>
                                     <SwiperSlide>
@@ -94,7 +96,7 @@ const DetailPage = () => {
                                             width={500}
                                             height={500}
                                             alt='product-01'
-                                            className='rounded-lg w-full block object-cover'
+                                            className='rounded-lg w-full h-full block object-contain'
                                         />
                                     </SwiperSlide>
                                     <SwiperSlide>
@@ -103,7 +105,7 @@ const DetailPage = () => {
                                             width={500}
                                             height={500}
                                             alt='product-01'
-                                            className='rounded-lg w-full block object-cover'
+                                            className='rounded-lg w-full h-full block object-contain'
                                         />
                                     </SwiperSlide>
                                     <SwiperSlide>
@@ -112,7 +114,7 @@ const DetailPage = () => {
                                             width={500}
                                             height={500}
                                             alt='product-01'
-                                            className='rounded-lg w-full block object-cover'
+                                            className='rounded-lg w-full h-full block object-contain'
                                         />
                                     </SwiperSlide>
                                 </Swiper>
@@ -205,61 +207,98 @@ const DetailPage = () => {
                                     </div>
                                 </div>
                             </div>
+                            <div className='border border-slate-200 rounded-md flex flex-col shadow-lg'>
+                                <div className='rounded-tl-md rounded-tr-md bg-black text-white p-3 text-lg font-semibold'>
+                                    <span className=''>🔥 KHUYẾN MÃI ĐANG DIỄN RA</span>
+                                </div>
+                                <div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
+                                    <div className='space-y-3'>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>1</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>1.500.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>2</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>750.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>3</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>2.500.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div className='flex items-center gap-1'>
                                 <button
-                                    className="relative w-3/4 h-16 px-4 rounded-md bg-red-600 isolation-auto z-10 border-2 border-white before:absolute before:w-full before:transition-all before:duration-500 before:ease-in-out before:hover:w-full hover:text-red-600 before:-right-full before:hover:right-0 before:rounded-full before:bg-white before:-z-10 before:aspect-square before:hover:scale-110 overflow-hidden before:hover:duration-500 inline-flex items-center justify-center text-sm font-semibold text-white bg-red-600 border border-red-500 rounded-lg shadow-sm gap-x-2 hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none flex-col gap-1"
+                                    className="relative w-2/3 h-16 px-4 rounded-md bg-red-600 isolation-auto z-10 border-2 border-red-500 before:absolute before:w-full before:transition-all before:duration-500 before:ease-in-out before:hover:w-full hover:text-red-600 before:-right-full before:hover:right-0 before:rounded-full before:bg-white before:-z-10 before:aspect-square before:hover:scale-110 overflow-hidden before:hover:duration-500 inline-flex items-center justify-center text-sm font-semibold text-white bg-red-600 border border-red-500 rounded-lg shadow-sm gap-x-2 hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none flex-col gap-1"
                                 >
                                     <span className='text-xl'>Mua ngay</span>
                                     <span>Giao hàng tận nơi hoặc tại cửa hàng</span>
                                 </button>
                                 <button
-                                    className="relative w-1/4 h-16 px-4 rounded-md bg-white isolation-auto z-10 border-2 border-red-500 before:absolute before:w-full before:transition-all before:duration-500 before:ease-in-out before:hover:w-full hover:bg-red-600 before:-right-full before:hover:right-0 before:rounded-full before:bg-red-500 before:-z-10 before:aspect-square before:hover:scale-110 overflow-hidden before:hover:duration-500 inline-flex items-center justify-center text-sm font-semibold text-red-600 border border-white rounded-lg shadow-sm gap-x-2 disabled:opacity-50 disabled:pointer-events-none flex-col gap-1 hover:text-white"
+                                    className="relative w-1/3 h-16 px-4 rounded-md bg-white isolation-auto z-10 border-2 border-red-500 before:absolute before:w-full before:transition-all before:duration-500 before:ease-in-out before:hover:w-full hover:bg-red-600 before:-right-full before:hover:right-0 before:rounded-full before:bg-red-500 before:-z-10 before:aspect-square before:hover:scale-110 overflow-hidden before:hover:duration-500 inline-flex items-center justify-center text-sm font-semibold text-red-600 border border-red-500 rounded-lg shadow-sm gap-x-2 disabled:opacity-50 disabled:pointer-events-none flex-col gap-1 hover:text-white"
                                 >
-                                    <FaCartPlus />
-                                    <span className='text-sm'>Giỏ hàng</span>
+                                    <FaCartPlus className='size-5' />
+                                    <span className='text-xs'>Thêm vào giỏ hàng</span>
                                 </button>
                             </div>
-                            <button
-                                className="relative py-2 px-4 rounded-md bg-blue-600 isolation-auto z-10 border-2 border-white before:absolute before:w-full before:transition-all before:duration-500 before:ease-in-out before:hover:w-full hover:text-blue-600 before:-right-full before:hover:right-0 before:rounded-full before:bg-white before:-z-10 before:aspect-square before:hover:scale-110 overflow-hidden before:hover:duration-500 inline-flex items-center justify-center text-sm font-semibold text-white bg-blue-600 border border-blue-500 rounded-lg shadow-sm gap-x-2 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none flex-col gap-1"
-                            >
-                                <span className='text-xl'>Trả góp 0%</span>
-                            </button>
+                            <div className='flex gap-2 w-full'>
+                                <button
+                                    className="relative py-2 px-4 rounded-md bg-blue-600 isolation-auto z-10 border-2 border-blue before:absolute before:w-full before:transition-all before:duration-500 before:ease-in-out before:hover:w-full hover:text-blue-600 before:-right-full before:hover:right-0 before:rounded-full before:bg-white before:-z-10 before:aspect-square before:hover:scale-110 overflow-hidden before:hover:duration-500 inline-flex items-center justify-center text-sm font-semibold text-white bg-blue-600 border border-blue-500 rounded-lg shadow-sm gap-x-2 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none flex-col gap-1 w-1/2"
+                                >
+                                    <span className='text-xl'>Trả góp 0%</span>
+                                    <span className='text-xs'>Duyệt nhanh qua điện thoại</span>
+                                </button>
+                                <button
+                                    className="relative py-2 px-4 rounded-md bg-blue-600 isolation-auto z-10 border-2 border-blue before:absolute before:w-full before:transition-all before:duration-500 before:ease-in-out before:hover:w-full hover:text-blue-600 before:-right-full before:hover:right-0 before:rounded-full before:bg-white before:-z-10 before:aspect-square before:hover:scale-110 overflow-hidden before:hover:duration-500 inline-flex items-center justify-center text-sm font-semibold text-white bg-blue-600 border border-blue-500 rounded-lg shadow-sm gap-x-2 hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none flex-col gap-1 w-1/2"
+                                >
+                                    <span className='text-xl'>Trả góp 0% qua thẻ</span>
+                                    <span className='text-xs'>Visa, Master Card, JCB, AMEX</span>
+                                </button>
+                            </div>
 
-                            <div className='bg-white border border-slate-200 rounded-md flex flex-col'>
-                                <div className='rounded-tl-md rounded-tr-md bg-black text-primary p-2'>
-                                    <span className=''>[HOT] KHUYẾN MÃI ĐANG DIỄN RA</span>
+
+                            <div className='border border-slate-200 rounded-md flex flex-col shadow-lg'>
+                                <div className='rounded-tl-md rounded-tr-md bg-black text-white p-3 text-lg font-semibold'>
+                                    <div className='flex gap-2 items-center'><LuTicket className='text-primary' /> TIỆN ÍCH ĐỘC QUYỀN</div>
                                 </div>
-                                <ul className='p-5 text-sm list-decimal'>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                </ul>
+                                <div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
+                                    <div className='space-y-3'>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>1</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>1.200.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>2</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>800.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>3</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>1.500.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className='bg-white border border-slate-200 rounded-md flex flex-col'>
-                                <div className='rounded-tl-md rounded-tr-md bg-black text-primary p-2'>
-                                    <span className=''>[HOT] KHUYẾN MÃI ĐI KÈM</span>
+                            <div className='border border-slate-200 rounded-md flex flex-col shadow-lg'>
+                                <div className='rounded-tl-md rounded-tr-md bg-black text-white p-3 text-lg font-semibold'>
+                                    <div className='flex items-center gap-2'><MdOutlineAddBox className='text-primary' /> SẢN PHẨM ĐI KÈM</div>
                                 </div>
-                                <ul className='p-5 text-sm list-decimal'>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                </ul>
-                            </div>
-                            <div className='bg-white border border-slate-200 rounded-md flex flex-col'>
-                                <div className='rounded-tl-md rounded-tr-md bg-black text-primary p-2'>
-                                    <span className=''>[HOT] SẢN PHẨM ĐI KÈM</span>
+                                <div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
+                                    <div className='space-y-3'>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>1</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>1.000.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>2</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>1.000.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                        <div className='flex items-center'>
+                                            <span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-3 rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105'>3</span>
+                                            <span>Giảm thêm <span className='font-bold text-red-600'>1.000.000đ</span> khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <ul className='p-5 text-sm list-decimal'>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                    <li>Giảm thêm 1.000.000đ khi mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.</li>
-                                </ul>
                             </div>
                         </div>
                     </div>

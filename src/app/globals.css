@@ -76,6 +76,7 @@
 .thumb-swiper {
   position: relative;
   width: 100%;
+  height: 100px;
 }
 
 .thumb-swiper .swiper-slide {
