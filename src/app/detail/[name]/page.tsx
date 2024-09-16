@@ -18,139 +18,178 @@ const DetailPage = () => {
         <div className='pt-32'>
             <Section>
                 <Container>
-                    <div className='flex flex-col md:flex-row gap-8'>
-                        <div className=' w-full h-full md:w-[60%] border border-slate-300 rounded-lg p-3'>
-                            <Swiper
-                                spaceBetween={10}
-                                navigation={{
-                                    prevEl: '.swiper-button-prev',
-                                    nextEl: '.swiper-button-next',
-                                }}
-                                thumbs={{ swiper: thumbsSwiper }}
-                                modules={[Thumbs]}
-                                className='mb-2 main-swiper'
-                            >
-                                <SwiperSlide >
-                                    <div className='w-full h-96 flex justify-center items-center'>
+                    <div className='flex flex-col lg:flex-row md:gap-8 gap-4'>
+                        <div className='w-full h-full lg:w-[60%] flex flex-col gap-4'>
+                            <div className='border border-slate-300 rounded-lg p-3'>
+                                <Swiper
+                                    spaceBetween={10}
+                                    navigation={{
+                                        prevEl: '.swiper-button-prev',
+                                        nextEl: '.swiper-button-next',
+                                    }}
+                                    thumbs={{ swiper: thumbsSwiper }}
+                                    modules={[Thumbs]}
+                                    className='mb-2 main-swiper'
+                                >
+                                    <SwiperSlide >
+                                        <div className='w-full h-96 flex justify-center items-center'>
+                                            <Image
+                                                src='/product-01.webp'
+                                                alt='product-01'
+                                                width={1820}
+                                                height={1200}
+                                                className='rounded-lg w-full h-96 object-contain'
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide >
+                                        <div className='w-full h-96 flex justify-center items-center'>
+                                            <Image
+                                                src='/product-02.webp'
+                                                alt='product-02'
+                                                width={1820}
+                                                height={1200}
+                                                className='rounded-lg w-full h-96 object-contain'
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide >
+                                        <div className='w-full h-96 flex justify-center items-center'>
+                                            <Image
+                                                src='/product-02.webp'
+                                                alt='product-02'
+                                                width={1820}
+                                                height={1200}
+                                                className='rounded-lg w-full h-96 object-contain'
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide >
+                                        <div className='w-full h-96 flex justify-center items-center'>
+                                            <Image
+                                                src='/product-02.webp'
+                                                alt='product-02'
+                                                width={1820}
+                                                height={1200}
+                                                className='rounded-lg w-full h-96 object-contain'
+                                            />
+                                        </div>
+                                    </SwiperSlide>
+                                </Swiper>
+                                <Swiper
+                                    onSwiper={setThumbsSwiper}
+                                    spaceBetween={10}
+                                    slidesPerView={4}
+                                    freeMode={true}
+                                    watchSlidesProgress={true}
+                                    modules={[Thumbs]}
+                                    className='mt-2 thumb-swiper'
+                                >
+                                    <SwiperSlide>
                                         <Image
                                             src='/product-01.webp'
+                                            width={500}
+                                            height={500}
                                             alt='product-01'
-                                            width={1820}
-                                            height={1200}
-                                            className='rounded-lg w-full h-96 object-contain'
+                                            className='rounded-lg w-full block object-cover'
                                         />
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide >
-                                    <div className='w-full h-96 flex justify-center items-center'>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
                                         <Image
                                             src='/product-02.webp'
-                                            alt='product-02'
-                                            width={1820}
-                                            height={1200}
-                                            className='rounded-lg w-full h-96 object-contain'
+                                            width={500}
+                                            height={500}
+                                            alt='product-01'
+                                            className='rounded-lg w-full block object-cover'
                                         />
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide >
-                                    <div className='w-full h-96 flex justify-center items-center'>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
                                         <Image
                                             src='/product-02.webp'
-                                            alt='product-02'
-                                            width={1820}
-                                            height={1200}
-                                            className='rounded-lg w-full h-96 object-contain'
+                                            width={500}
+                                            height={500}
+                                            alt='product-01'
+                                            className='rounded-lg w-full block object-cover'
                                         />
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide >
-                                    <div className='w-full h-96 flex justify-center items-center'>
+                                    </SwiperSlide>
+                                    <SwiperSlide>
                                         <Image
                                             src='/product-02.webp'
-                                            alt='product-02'
-                                            width={1820}
-                                            height={1200}
-                                            className='rounded-lg w-full h-96 object-contain'
+                                            width={500}
+                                            height={500}
+                                            alt='product-01'
+                                            className='rounded-lg w-full block object-cover'
                                         />
-                                    </div>
-                                </SwiperSlide>
-                            </Swiper>
-                            <Swiper
-                                onSwiper={setThumbsSwiper}
-                                spaceBetween={10}
-                                slidesPerView={4}
-                                freeMode={true}
-                                watchSlidesProgress={true}
-                                modules={[Thumbs]}
-                                className='mt-2 thumb-swiper'
-                            >
-                                <SwiperSlide>
-                                    <Image
-                                        src='/product-01.webp'
-                                        width={500}
-                                        height={500}
-                                        alt='product-01'
-                                        className='rounded-lg w-full block object-cover'
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <Image
-                                        src='/product-02.webp'
-                                        width={500}
-                                        height={500}
-                                        alt='product-01'
-                                        className='rounded-lg w-full block object-cover'
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <Image
-                                        src='/product-02.webp'
-                                        width={500}
-                                        height={500}
-                                        alt='product-01'
-                                        className='rounded-lg w-full block object-cover'
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <Image
-                                        src='/product-02.webp'
-                                        width={500}
-                                        height={500}
-                                        alt='product-01'
-                                        className='rounded-lg w-full block object-cover'
-                                    />
-                                </SwiperSlide>
-                            </Swiper>
+                                    </SwiperSlide>
+                                </Swiper>
+                            </div>
+                            <div className='flex flex-col md:flex-row gap-2'>
+                                <div className='p-3 bg-white border border-slate-200 w-full md:w-1/2'>
+                                    <h2 className='text-sm font-semibold mb-2'>Thông tin sản phẩm</h2>
+                                    <span className='text-xs'>Máy mới 100% , chính hãng Apple Việt Nam. Bạch Long Mobile hiện là đại lý bán lẻ uỷ quyền iPhone chính hãng VN/A của Apple Việt Nam</span>
+                                    <span className='text-xs'>Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Type C</span>
+                                    <span className='text-xs'>1 ĐỔI 1 trong 30 ngày nếu có lỗi phần cứng nhà sản xuất. Bảo hành 12 tháng tại trung tâm bảo hành chính hãng Apple</span>
+                                    <span className='text-xs'>Giá sản phẩm đã bao gồm VAT</span>
+                                </div>
+                                <div className='p-3 bg-white border flex flex-col gap-1 border-slate-200 w-full md:w-1/2'>
+                                    <h2 className='text-sm font-semibold mb-2'>Có 7 cửa hàng có sản phẩm</h2>
+                                    <span className='text-sm'>1900.63.64.69 - 136 Trần Phú, P.4, Q.5</span>
+                                    <span className='text-sm'>1900.63.64.69 - 136 Trần Phú, P.4, Q.5</span>
+                                    <span className='text-sm'>1900.63.64.69 - 136 Trần Phú, P.4, Q.5</span>
+                                    <span className='text-sm'>1900.63.64.69 - 136 Trần Phú, P.4, Q.5</span>
+                                </div>
+                            </div>
                         </div>
-                        <div className='w-full md:w-1/2 flex flex-col gap-4'>
+
+                        <div className='w-full lg:w-1/2 flex flex-col gap-4'>
                             <h1 className='text-xl font-bold mb-4'>iPhone 15 Pro Max 512GB Chính Hãng 99%</h1>
                             <div className='flex items-center gap-4'>
                                 <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
-                                    <span>256GB</span>
-                                    <span>27.000.000 VNĐ</span>
+                                    <span className='text-sm md:text-base'>256GB</span>
+                                    <span className='text-sm md:text-base'>27.000.000 VNĐ</span>
                                 </div>
-                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
-                                    <span>256GB</span>
-                                    <span>27.000.000 VNĐ</span>
+                                <div className='flex items-center gap-1 py-2 px-6 rounded-md bg-white relative border-2 border-primary overflow-hidden'>
+                                    <div className='custom-rounded bg-primary absolute top-0 -right-1 w-7 h-7 flex items-center justify-center'>
+                                        <FaCheck className='flex items-center justify-center size-3 text-white' />
+                                    </div>
+                                    <div className='flex flex-col items-center'>
+                                        <span className='text-sm md:text-base'>512GB</span>
+                                        <span className='text-sm md:text-base'>27.000.000 VNĐ</span>
+                                    </div>
                                 </div>
                             </div>
                             <h1 className='text-xl font-bold mb-4'>Chọn màu để xem giá và chi nhánh có hàng</h1>
                             <div className='flex items-center flex-wrap gap-4'>
-                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
-                                    <span>256GB</span>
-                                    <span>27.000.000 VNĐ</span>
+                                <div className='flex items-center gap-1 py-2 px-6 rounded-md bg-white relative border-2 border-primary overflow-hidden'>
+                                    <div className='custom-rounded bg-primary absolute top-0 -right-1 w-7 h-7 flex items-center justify-center'>
+                                        <FaCheck className='flex items-center justify-center size-3 text-white' />
+                                    </div>
+                                    <Image src='/product-01.webp' width={40} height={40} alt='product-01' className='size-7 md:size-10' />
+                                    <div className='flex flex-col'>
+                                        <span className='text-sm md:text-base'>Natural Titanium</span>
+                                        <span className='text-sm md:text-base'>27.000.000 VNĐ</span>
+                                    </div>
                                 </div>
-                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
-                                    <span>256GB</span>
-                                    <span>27.000.000 VNĐ</span>
+                                <div className='flex items-center gap-1 py-2 px-6 rounded-md bg-white relative border-2 overflow-hidden'>
+                                    <Image src='/product-01.webp' width={40} height={40} alt='product-01' className='size-7 md:size-10' />
+                                    <div className='flex flex-col'>
+                                        <span className='text-sm md:text-base'>Natural Titanium</span>
+                                        <span className='text-sm md:text-base'>27.000.000 VNĐ</span>
+                                    </div>
                                 </div>
-                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
-                                    <span>256GB</span>
-                                    <span>27.000.000 VNĐ</span>
+                                <div className='flex items-center gap-1 py-2 px-6 rounded-md bg-white relative border-2 overflow-hidden'>
+                                    <Image src='/product-01.webp' width={40} height={40} alt='product-01' className='size-7 md:size-10' />
+                                    <div className='flex flex-col'>
+                                        <span className='text-sm md:text-base'>Natural Titanium</span>
+                                        <span className='text-sm md:text-base'>27.000.000 VNĐ</span>
+                                    </div>
                                 </div>
-                                <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md'>
-                                    <span>256GB</span>
-                                    <span>27.000.000 VNĐ</span>
+                                <div className='flex items-center gap-1 py-2 px-6 rounded-md bg-white relative border-2 overflow-hidden'>
+                                    <Image src='/product-01.webp' width={40} height={40} alt='product-01' className='size-7 md:size-10' />
+                                    <div className='flex flex-col'>
+                                        <span className='text-sm md:text-base'>Natural Titanium</span>
+                                        <span className='text-sm md:text-base'>27.000.000 VNĐ</span>
+                                    </div>
                                 </div>
                             </div>
                             <div className='flex flex-col gap-4 relative p-4 bg-slate-100 rounded-md'>
@@ -163,12 +202,12 @@ const DetailPage = () => {
                                         <div className='custom-rounded bg-primary absolute top-0 -right-1 w-7 h-7 flex items-center justify-center'>
                                             <FaCheck className='flex items-center justify-center size-3 text-white' />
                                         </div>
-                                        <span>Mua BHTD</span>
-                                        <span>27.000.000 VNĐ</span>
+                                        <span className='text-sm md:text-base'>Mua BHTD</span>
+                                        <span className='text-sm md:text-base'>27.000.000 VNĐ</span>
                                     </div>
                                     <div className='flex flex-col items-center gap-1 border border-slate-300 py-2 px-6 rounded-md bg-white w-1/2'>
-                                        <span>Mua thẳng</span>
-                                        <span>27.000.000 VNĐ</span>
+                                        <span className='text-sm md:text-base'>Mua thẳng</span>
+                                        <span className='text-sm md:text-base'>27.000.000 VNĐ</span>
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +230,6 @@ const DetailPage = () => {
                             >
                                 <span className='text-xl'>Trả góp 0%</span>
                             </button>
-
 
                             <div className='bg-white border border-slate-200 rounded-md flex flex-col'>
                                 <div className='rounded-tl-md rounded-tr-md bg-black text-primary p-2'>
@@ -230,9 +268,6 @@ const DetailPage = () => {
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <h2 className='text-2xl font-semibold mb-2'>Mô tả</h2>
                     </div>
                 </Container>
             </Section>
