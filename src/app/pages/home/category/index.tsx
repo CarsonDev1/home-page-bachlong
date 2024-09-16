@@ -14,11 +14,11 @@ import Link from 'next/link';
 const slidesData = [
     {
         tabs: [
-            { label: 'Tất cả iPhone', contentHeader: 'APPLE IPHONE' },
-            { label: 'iPhone 16 Series', contentHeader: 'APPLE IPHONE' },
-            { label: 'iPhone 15 Series', contentHeader: 'APPLE IPHONE' },
-            { label: 'iPhone 14 Series', contentHeader: 'APPLE IPHONE' },
-            { label: 'iPhone 13 Series', contentHeader: 'APPLE IPHONE' }
+            { label: 'Tất cả iPhone', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
+            { label: 'iPhone 16 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
+            { label: 'iPhone 15 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
+            { label: 'iPhone 14 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
+            { label: 'iPhone 13 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' }
         ],
         content: Array.from({ length: 10 }).map((_, index) => ({
             name: `iPhone ${index + 1}`,
@@ -28,11 +28,11 @@ const slidesData = [
     },
     {
         tabs: [
-            { label: 'Tất cả SamSung', contentHeader: 'SAMSUNG' },
-            { label: 'Galaxy S24 Series', contentHeader: 'SAMSUNG' },
-            { label: 'Galaxy S23 Series', contentHeader: 'SAMSUNG' },
-            { label: 'Galaxy S22 Series', contentHeader: 'SAMSUNG' },
-            { label: 'Galaxy S21 Series', contentHeader: 'SAMSUNG' }
+            { label: 'Tất cả SamSung', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' },
+            { label: 'Galaxy S24 Series', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' },
+            { label: 'Galaxy S23 Series', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' },
+            { label: 'Galaxy S22 Series', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' },
+            { label: 'Galaxy S21 Series', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' }
         ],
         content: Array.from({ length: 10 }).map((_, index) => ({
             name: `SamSung ${index + 1}`,
@@ -78,7 +78,7 @@ const Category = () => {
         return (
             <div className='w-full flex flex-col gap-4 bg-[#fffbe6] p-3'>
                 <div className='flex justify-between items-center w-full h-full p-2 lg:p-4 rounded-lg'>
-                    <span className='text-sm md:text-base lg:text-xl font-semibold w-1/2'>{tabs[currentTab].contentHeader}</span>
+                    <span className='text-xs md:text-sm lg:text-xl font-semibold w-2/3 md:w-1/2'>{tabs[currentTab].contentHeader}</span>
                     <div className='relative flex justify-end overflow-hidden w-3/4 lg:w-full'>
                         <div className="hidden lg:flex flex-wrap items-center gap-4">
                             {tabs.map((item, tabIndex) => (
@@ -105,17 +105,17 @@ const Category = () => {
                                 </button>
                             ))}
                         </div>
-                        <div className="lg:hidden w-1/2 md:w-3/4">
+                        <div className="lg:hidden w-3/4">
                             <Swiper
                                 spaceBetween={10}
                                 slidesPerView='auto'
                                 speed={1000}
                                 breakpoints={{
                                     0: {
-                                        slidesPerView: 1.5,
+                                        slidesPerView: 1.2,
                                     },
                                     676: {
-                                        slidesPerView: 3,
+                                        slidesPerView: 2.2,
                                     },
                                     1024: {
                                         slidesPerView: 4,
@@ -142,7 +142,7 @@ const Category = () => {
                                                 }, 500);
                                             }}
                                         >
-                                            <span className='text-xs lg:text-sm'>{item.label}</span>
+                                            <span className='text-[10px] lg:text-sm'>{item.label}</span>
                                         </button>
                                     </SwiperSlide>
                                 ))}
@@ -207,11 +207,11 @@ const Category = () => {
                         slidesPerView={'auto'}
                         breakpoints={{
                             400: {
-                                slidesPerView: 1,
+                                slidesPerView: 2.5,
                                 spaceBetween: 10,
                             },
-                            768: {
-                                slidesPerView: 2,
+                            640: {
+                                slidesPerView: 3,
                                 spaceBetween: 15,
                             },
                             1024: {

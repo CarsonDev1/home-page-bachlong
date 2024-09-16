@@ -142,10 +142,10 @@ const Banner = () => {
                         <div className="swiper-pagination"></div>
                     </Swiper>
                 </div>
-                <div className='flex flex-row lg:flex-col justify-center gap-1 lg:gap-4 w-full h-full lg:w-1/5 flex-wrap'>
-                    <Image src='/banner-ad-01.jpg' width={1000} height={900} alt='banner-ad-01' className='object-cover lg:object-fill w-1/3 lg:w-full h-fit block rounded-md' />
-                    <Image src='/banner-ad-02.png' width={1000} height={900} alt='banner-ad-02' className='object-cover lg:object-fill w-1/3 lg:w-full h-fit block rounded-md' />
-                    <Image src='/banner-ad-03.png' width={1000} height={900} alt='banner-ad-03' className='object-cover lg:object-fill w-1/3 lg:w-full h-fit block rounded-md' />
+                <div className='flex flex-row lg:flex-col justify-center gap-2 lg:gap-4 w-full lg:w-1/5'>
+                    <Image src='/banner-ad-01.jpg' width={1000} height={900} alt='banner-ad-01' className='object-cover w-1/3 lg:w-full block rounded-md' />
+                    <Image src='/banner-ad-02.png' width={1000} height={900} alt='banner-ad-02' className='object-cover w-1/3 lg:w-full block rounded-md' />
+                    <Image src='/banner-ad-03.png' width={1000} height={900} alt='banner-ad-03' className='object-cover w-1/3 lg:w-full block rounded-md' />
                 </div>
             </div>
             <div className='grid grid-cols-5 lg:grid-cols-10 w-full justify-between items-center py-5'>

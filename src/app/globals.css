@@ -55,6 +55,7 @@
   align-items: center;
   background: unset !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
 }
 
 .main-swiper .swiper-slide img {
@@ -70,8 +71,7 @@
 
 .thumb-swiper {
   position: relative;
-  height: 100px;
-  width: 250px;
+  width: 100%;
 }
 
 .thumb-swiper .swiper-slide {
@@ -84,7 +84,7 @@
 }
 
 .thumb-swiper .swiper-slide-thumb-active {
-  border-color: #3b82f6;
+  border-color: #fad200;
   border-radius: 8px;
 }
 
@@ -94,5 +94,6 @@
 }
 
 .thumb-swiper .swiper-slide:hover {
-  border-color: #3b82f6;
+  border-color: #fad200;
+  border-radius: 8px;
 }
