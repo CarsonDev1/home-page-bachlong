@@ -84,7 +84,7 @@ const Footer = () => {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <span className="mb-2">Cửa hàng gần bạn</span>
+                  <span className="mb-2 text-sm md:text-base lg:text-xl font-semibold">Cửa hàng gần đây</span>
                   <Select
                     options={[
                       { value: "store1", label: "Store 1" },
@@ -153,7 +153,7 @@ const Footer = () => {
               </div>
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-2">
-                  <span className="mb-2">Kết nối với chúng tôi</span>
+                  <span className="mb-2 text-sm md:text-base lg:text-xl font-semibold">Kết nối với chúng tôi</span>
                   <div className="flex items-center gap-2">
                     <Link href="#">
                       <Image src="/footer-icon-01.png" alt="facebook" width={50} height={50} className="size-7 rounded-full" />
@@ -173,7 +173,7 @@ const Footer = () => {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <span className="mb-2">Cửa hàng gần bạn</span>
+                  <span className="mb-2 text-sm md:text-base lg:text-xl font-semibold">Website thành viên</span>
 
                 </div>
               </div>
