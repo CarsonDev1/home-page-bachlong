@@ -265,11 +265,11 @@ const DetailPage = () => {
                   className="absolute w-full h-full top-0 left-0 z-10 rounded-md"
                 />
                 <div className="relative z-20 w-full flex justify-between items-center">
-                  <p className="text-white text-2xl w-max flex flex-col text-center">
+                  <p className="text-white text-2xl w-max flex justify-between text-center">
                     <span className='flex line-through'>28.990.000 VNĐ</span>
                     <span className='flex justify-center text-sm'>(Giá đã gồm VAT)</span>
                   </p>
-                  <span className='p-2 bg-[#C0E1FF] rounded-md flex justify-center text-center text-xs items-center text-[#0707FF] font-bold'>Góp hàng tháng: <br /> 2.100.000VNĐ</span>
+                  {/* <span className='p-2 bg-[#C0E1FF] rounded-md flex justify-center text-center text-xs items-center text-[#0707FF] font-bold'>Góp hàng tháng: <br /> 2.100.000VNĐ</span> */}
                 </div>
                 <div className="flex items-center gap-4 z-20">
                   <div className="flex flex-col w-1/2 text-center items-center gap-1 py-2 px-2 rounded-md bg-white relative border-2 border-primary overflow-hidden">
