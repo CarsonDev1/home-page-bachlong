@@ -289,7 +289,7 @@ const DetailPage = () => {
                 <Image
                   src="/giovang.jpg"
                   width={800}
-                  height={500}
+                  height={200}
                   alt="giovang"
                   className="rounded-md"
                 />
