@@ -285,7 +285,7 @@ const DetailPage = () => {
                   </div>
                 </div>
               </div>
-              <Link href="https://bachlongmobile.com/iphone-16-series/">
+              <Link href="https://bachlongmobile.com/renew/">
                 <Image
                   src="/giovang.jpg"
                   width={800}
