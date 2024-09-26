@@ -265,7 +265,7 @@ const DetailPage = () => {
                   className="absolute w-full h-full top-0 left-0 z-10 rounded-md"
                 />
                 <div className="relative z-20 w-full flex justify-between items-center">
-                  <p className="text-white text-2xl w-max flex justify-between text-center">
+                  <p className="text-white text-2xl w-max flex justify-between items-center text-center">
                     <span className='flex line-through'>28.990.000 VNĐ</span>
                     <span className='flex justify-center text-sm'>(Giá đã gồm VAT)</span>
                   </p>
