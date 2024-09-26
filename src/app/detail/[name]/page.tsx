@@ -265,26 +265,22 @@ const DetailPage = () => {
                   className="absolute w-full h-full top-0 left-0 z-10 rounded-md"
                 />
                 <div className="relative z-20 w-full flex justify-between items-center">
-                  <p className="text-white  text-2xl w-full flex flex-col text-center">
-                    <span className='line-through'>28.990.000 VNĐ</span>
-                    <span className='text-sm'>(Giá đã gồm VAT)</span>
+                  <p className="text-white text-2xl w-max flex flex-col text-center">
+                    <span className='flex line-through'>28.990.000 VNĐ</span>
+                    <span className='flex justify-center text-sm'>(Giá đã gồm VAT)</span>
                   </p>
-                  <span className='p-2 bg-[#C0E1FF] rounded-md flex justify-center text-center text-xs items-center text-[#0707FF] font-bold'>Góp hàng tháng: 2.100.000VNĐ</span>
+                  <span className='p-2 bg-[#C0E1FF] rounded-md flex justify-center text-center text-xs items-center text-[#0707FF] font-bold'>Góp hàng tháng: <br /> 2.100.000VNĐ</span>
                 </div>
                 <div className="flex items-center gap-4 z-20">
-                  <div className="flex flex-col w-[33%] text-center items-center gap-1 py-2 px-2 rounded-md bg-white relative border-2 border-primary overflow-hidden">
+                  <div className="flex flex-col w-1/2 text-center items-center gap-1 py-2 px-2 rounded-md bg-white relative border-2 border-primary overflow-hidden">
                     <div className="custom-rounded bg-primary absolute top-0 -right-1 w-7 h-7 flex items-center justify-center">
                       <FaCheck className="flex items-center justify-center size-3 text-white" />
                     </div>
                     <span className="text-xs md:text-xs">Mua BHTD</span>
                     <span className="text-xs md:text-xs text-red-600 font-bold">27.000.000 VNĐ</span>
                   </div>
-                  <div className="flex flex-col w-[33%] text-center items-center gap-1 border border-slate-300 py-2 px-2 rounded-md bg-white">
+                  <div className="flex flex-col w-1/2 text-center items-center gap-1 border border-slate-300 py-2 px-2 rounded-md bg-white">
                     <span className="text-xs md:text-xs">Mua thẳng</span>
-                    <span className="text-xs md:text-xs text-red-600 font-bold">27.000.000 VNĐ</span>
-                  </div>
-                  <div className="flex flex-col w-[33%] text-center justify-center items-center gap-1 border border-slate-300 py-2 px-2 rounded-md bg-white relative z-10">
-                    <span className="text-xs md:text-xs">Giá TradeIn</span>
                     <span className="text-xs md:text-xs text-red-600 font-bold">27.000.000 VNĐ</span>
                   </div>
                 </div>
