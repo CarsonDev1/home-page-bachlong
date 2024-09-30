@@ -2,103 +2,107 @@
 @tailwind components;
 @tailwind utilities;
 
+.clip-path-custom {
+	clip-path: polygon(0 0, 0 100%, 50% 80%, 100% 100%, 100% 0);
+}
+
 .swiper-pagination-bullet {
-  @apply text-xs lg:text-sm leading-8 m-0 w-[20%] h-full bg-transparent opacity-100 rounded-none p-2 lg:p-4 md:inline-flex hidden justify-center !important;
-  border-left: 1px solid #e4eaef !important;
+	@apply text-xs lg:text-sm leading-8 m-0 w-[20%] h-full bg-transparent opacity-100 rounded-none p-2 lg:p-4 md:inline-flex hidden justify-center !important;
+	border-left: 1px solid #e4eaef !important;
 }
 
 .swiper-pagination-bullet:first-child {
-  border-left: none !important;
+	border-left: none !important;
 }
 
 .swiper-pagination-bullet:last-child {
-  border-right: none !important;
+	border-right: none !important;
 }
 
 .swiper-pagination-bullet-active {
-  @apply relative !important;
+	@apply relative !important;
 
-  &::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #fad200;
-  }
+	&::before {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background-color: #fad200;
+	}
 }
 
 .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal,
 .swiper-pagination-custom,
 .swiper-pagination-fraction {
-  @apply bottom-0 border-t border-gray-100 bg-white !important;
+	@apply bottom-0 border-t border-gray-100 bg-white !important;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-  @apply bottom-1 text-black text-2xl !important;
+	@apply bottom-1 text-black text-2xl !important;
 }
 
 .swiper-button-prev {
-  @apply absolute left-5 z-[15] !important;
+	@apply absolute left-5 z-[15] !important;
 }
 
 .swiper-button-next {
-  @apply absolute right-5 z-[15] !important;
+	@apply absolute right-5 z-[15] !important;
 }
 
 .custom-rounded {
-  border-radius: 77% 23% 0% 100% / 0% 30% 70% 100%;
+	border-radius: 77% 23% 0% 100% / 0% 30% 70% 100%;
 }
 
 .main-swiper .swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: unset !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: unset !important;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	width: 100%;
 }
 
 .main-swiper .swiper-slide img {
-  border-radius: 8px;
-  transform: scale(1);
-  transition: transform 0.3s ease;
+	border-radius: 8px;
+	transform: scale(1);
+	transition: transform 0.3s ease;
 }
 
 .main-swiper .swiper-slide:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transform: scale(1.05);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .thumb-swiper {
-  position: relative;
-  width: 100%;
-  height: 100px;
+	position: relative;
+	width: 100%;
+	height: 100px;
 }
 
 .thumb-swiper .swiper-slide {
-  border: 2px solid transparent;
-  transition: border-color 0.3s ease, transform 0.3s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+	border: 2px solid transparent;
+	transition: border-color 0.3s ease, transform 0.3s ease;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
 }
 
 .thumb-swiper .swiper-slide-thumb-active {
-  border-color: #fad200;
-  border-radius: 8px;
+	border-color: #fad200;
+	border-radius: 8px;
 }
 
 .thumb-swiper .swiper-slide img {
-  border-radius: 8px;
-  transition: transform 0.3s ease;
+	border-radius: 8px;
+	transition: transform 0.3s ease;
 }
 
 .thumb-swiper .swiper-slide:hover {
-  border-color: #fad200;
-  border-radius: 8px;
+	border-color: #fad200;
+	border-radius: 8px;
 }
