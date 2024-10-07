@@ -104,12 +104,35 @@ const Payment = () => {
 	const [data, setData] = useState<DataType | null>(null);
 	const [loading, setLoading] = useState(false);
 
+	const [activeTab, setActiveTab] = useState('hd-saison');
+	const handleTabClick = (tabName: string) => {
+		setActiveTab(tabName);
+		setInstallmentOptions([]);
+	};
+
 	const options: OptionType[] = useMemo(() => {
 		const percentages = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
 		return percentages.map((percentage) => {
 			const downPayment = (productPrice * percentage) / 100;
 			return {
 				value: downPayment,
+				label: (
+					<>
+						<span>
+							Trả trước {percentage}% - {downPayment.toLocaleString('vi-VN')} VNĐ
+						</span>
+					</>
+				),
+			};
+		});
+	}, []);
+
+	const shinhanPaymentOptions: OptionType[] = useMemo(() => {
+		const percentages = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+		return percentages.map((percentage) => {
+			const downPayment = (productPrice * percentage) / 100;
+			return {
+				value: percentage,
 				label: (
 					<>
 						<span>
@@ -139,6 +162,27 @@ const Payment = () => {
 		setInstallmentOptions(data.item);
 		setLoading(false);
 	};
+
+	const handleShinhanChange = async (selectedOptionShin: OptionType | null) => {
+		if (!selectedOptionShin) return;
+		setLoading(true);
+		const response = await fetch(
+			'https://script.google.com/macros/s/AKfycbxhuz9VahdzgRylHAa_Q20uaMx_bHWbPUBCw6jgHohyhQP0gHE9IBZCe3i2JZfUWWbQ/exec',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					endpoint: 'shinhan',
+					price: productPrice,
+					cost: selectedOptionShin.value,
+				}),
+			}
+		);
+		const data = await response.json();
+		setData(data);
+		setInstallmentOptions(data.item);
+		setLoading(false);
+	};
+	console.log('data shinhan', data);
 
 	return (
 		<Section>
@@ -212,7 +256,16 @@ const Payment = () => {
 							</div>
 							<span className='font-semibold'>Chọn công ty tài chính:</span>
 							<div className='flex items-center gap-2'>
-								<div className='w-24 h-14 relative py-2 px-3 border border-slate-300 rounded-md'>
+								<div
+									onClick={() => handleTabClick('shinhan')}
+									className={`w-24 h-14 relative py-2 px-3 border ${
+										activeTab === 'shinhan' ? 'border-rose-600' : 'border-slate-300'
+									} rounded-md cursor-pointer before:absolute before:w-0 before:h-0 ${
+										activeTab === 'shinhan'
+											? 'before:border-l-[12px] before:border-r-[12px] before:border-t-[12px] before:border-l-transparent before:border-r-transparent before:border-t-rose-600 before:left-1/2 before:-translate-x-1/2 before:bottom-[-12px]'
+											: ''
+									}`}
+								>
 									<Image
 										src='/shinhan.webp'
 										width={100}
@@ -221,7 +274,17 @@ const Payment = () => {
 										className='absolute top-0 left-0 object-contain w-full h-full'
 									/>
 								</div>
-								<div className='w-24 h-14 relative py-2 px-3 border-2 border-rose-600 rounded-md before:absolute before:w-0 before:h-0 before:border-l-[12px] before:border-r-[12px] before:border-t-[12px] before:border-l-transparent before:border-r-transparent before:border-t-rose-600 before:left-1/2 before:-translate-x-1/2 before:bottom-[-12px]'>
+
+								<div
+									onClick={() => handleTabClick('hd-saison')}
+									className={`w-24 h-14 relative py-2 px-3 border ${
+										activeTab === 'hd-saison' ? 'border-rose-600' : 'border-slate-300'
+									} rounded-md cursor-pointer before:absolute before:w-0 before:h-0 ${
+										activeTab === 'hd-saison'
+											? 'before:border-l-[12px] before:border-r-[12px] before:border-t-[12px] before:border-l-transparent before:border-r-transparent before:border-t-rose-600 before:left-1/2 before:-translate-x-1/2 before:bottom-[-12px]'
+											: ''
+									}`}
+								>
 									<Image
 										src='/hd-saison.webp'
 										width={100}
@@ -230,7 +293,17 @@ const Payment = () => {
 										className='absolute top-0 left-0 object-contain w-full h-full'
 									/>
 								</div>
-								<div className='w-24 h-14 relative py-2 px-3 border border-slate-300 rounded-md'>
+
+								<div
+									onClick={() => handleTabClick('mcredit')}
+									className={`w-24 h-14 relative py-2 px-3 border ${
+										activeTab === 'mcredit' ? 'border-rose-600' : 'border-slate-300'
+									} rounded-md cursor-pointer before:absolute before:w-0 before:h-0 ${
+										activeTab === 'mcredit'
+											? 'before:border-l-[12px] before:border-r-[12px] before:border-t-[12px] before:border-l-transparent before:border-r-transparent before:border-t-rose-600 before:left-1/2 before:-translate-x-1/2 before:bottom-[-12px]'
+											: ''
+									}`}
+								>
 									<Image
 										src='/mcredit.jpg'
 										width={100}
@@ -239,7 +312,17 @@ const Payment = () => {
 										className='absolute top-0 left-0 object-contain w-full h-full'
 									/>
 								</div>
-								<div className='w-24 h-14 relative py-2 px-3 border border-slate-300 rounded-md'>
+
+								<div
+									onClick={() => handleTabClick('home-credit')}
+									className={`w-24 h-14 relative py-2 px-3 border ${
+										activeTab === 'home-credit' ? 'border-rose-600' : 'border-slate-300'
+									} rounded-md cursor-pointer before:absolute before:w-0 before:h-0 ${
+										activeTab === 'home-credit'
+											? 'before:border-l-[12px] before:border-r-[12px] before:border-t-[12px] before:border-l-transparent before:border-r-transparent before:border-t-rose-600 before:left-1/2 before:-translate-x-1/2 before:bottom-[-12px]'
+											: ''
+									}`}
+								>
 									<Image
 										src='/home-credit.webp'
 										width={100}
@@ -249,13 +332,46 @@ const Payment = () => {
 									/>
 								</div>
 							</div>
+
+							<div className='mt-5'>
+								{activeTab === 'shinhan' && (
+									<div>
+										<h2 className='text-lg font-semibold'>Trả góp qua Shinhan</h2>
+									</div>
+								)}
+								{activeTab === 'hd-saison' && (
+									<div>
+										<h2 className='text-lg font-semibold'>Trả góp qua HD Saison</h2>
+									</div>
+								)}
+								{activeTab === 'mcredit' && (
+									<div>
+										<h2 className='text-lg font-semibold'>Trả góp qua Mcredit</h2>
+									</div>
+								)}
+								{activeTab === 'home-credit' && (
+									<div>
+										<h2 className='text-lg font-semibold'>Trả góp qua Home Credit</h2>
+									</div>
+								)}
+							</div>
 							<span className='font-semibold'>Chọn số tiền trả trước:</span>
-							<Select
-								options={options}
-								onChange={handleChange}
-								placeholder='Chọn số tiền trả trước'
-								styles={customStyles}
-							/>
+							{activeTab === 'hd-saison' && (
+								<Select
+									options={options}
+									styles={customStyles}
+									placeholder='Chọn số tiền trả trước'
+									onChange={handleChange}
+								/>
+							)}
+							{activeTab === 'shinhan' && (
+								<Select
+									options={shinhanPaymentOptions}
+									styles={customStyles}
+									placeholder='Chọn số tiền trả trước'
+									onChange={handleShinhanChange}
+								/>
+							)}
 						</div>
 					</div>
 					{loading ? (
