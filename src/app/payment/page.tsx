@@ -27,6 +27,7 @@ interface DataType {
 	productPrice: number;
 	loan: number;
 	item: InstallmentOption[];
+	prepay: number;
 }
 const customStyles: any = {
 	control: (provided: any, state: { isFocused: any }) => ({
@@ -520,7 +521,7 @@ const Payment = () => {
 													<p className='flex items-center justify-between'>
 														<span className='text-sm'>Thanh toán khi nhận máy</span>
 														<span className='font-semibold text-[]'>
-															{data?.loan.toLocaleString('vi-VN')} VNĐ
+															{data?.prepay.toLocaleString('vi-VN')} VNĐ
 														</span>
 													</p>
 													<button className='bg-[#10b981] py-2 px-6 rounded-md text-white font-semibold'>
