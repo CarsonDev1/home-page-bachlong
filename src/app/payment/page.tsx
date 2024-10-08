@@ -128,6 +128,40 @@ const Payment = () => {
 	}, []);
 
 	const shinhanPaymentOptions: OptionType[] = useMemo(() => {
+		const percentages = [0, 10, 20, 30, 40, 50, 55, 60, 70, 80, 90];
+		return percentages.map((percentage) => {
+			const downPayment = (productPrice * percentage) / 100;
+			return {
+				value: percentage,
+				label: (
+					<>
+						<span>
+							Trả trước {percentage}% - {downPayment.toLocaleString('vi-VN')} VNĐ
+						</span>
+					</>
+				),
+			};
+		});
+	}, []);
+
+	const mcreditPaymentOptions: OptionType[] = useMemo(() => {
+		const percentages = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+		return percentages.map((percentage) => {
+			const downPayment = (productPrice * percentage) / 100;
+			return {
+				value: percentage,
+				label: (
+					<>
+						<span>
+							Trả trước {percentage}% - {downPayment.toLocaleString('vi-VN')} VNĐ
+						</span>
+					</>
+				),
+			};
+		});
+	}, []);
+
+	const homeCreditPaymentOptions: OptionType[] = useMemo(() => {
 		const percentages = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
 		return percentages.map((percentage) => {
 			const downPayment = (productPrice * percentage) / 100;
@@ -182,7 +216,46 @@ const Payment = () => {
 		setInstallmentOptions(data.item);
 		setLoading(false);
 	};
-	console.log('data shinhan', data);
+
+	const handleMcreditChange = async (selectedOptionMcredit: OptionType | null) => {
+		if (!selectedOptionMcredit) return;
+		setLoading(true);
+		const response = await fetch(
+			'https://script.google.com/macros/s/AKfycbxhuz9VahdzgRylHAa_Q20uaMx_bHWbPUBCw6jgHohyhQP0gHE9IBZCe3i2JZfUWWbQ/exec',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					endpoint: 'mcredit',
+					price: productPrice,
+					cost: selectedOptionMcredit.value,
+				}),
+			}
+		);
+		const data = await response.json();
+		setData(data);
+		setInstallmentOptions(data.item);
+		setLoading(false);
+	};
+
+	const handleHomeCreditChange = async (selectedOptionHomeCredit: OptionType | null) => {
+		if (!selectedOptionHomeCredit) return;
+		setLoading(true);
+		const response = await fetch(
+			'https://script.google.com/macros/s/AKfycbxhuz9VahdzgRylHAa_Q20uaMx_bHWbPUBCw6jgHohyhQP0gHE9IBZCe3i2JZfUWWbQ/exec',
+			{
+				method: 'POST',
+				body: JSON.stringify({
+					endpoint: 'homecredit',
+					price: productPrice,
+					cost: selectedOptionHomeCredit.value,
+				}),
+			}
+		);
+		const data = await response.json();
+		setData(data);
+		setInstallmentOptions(data.item);
+		setLoading(false);
+	};
 
 	return (
 		<Section>
@@ -370,6 +443,22 @@ const Payment = () => {
 									styles={customStyles}
 									placeholder='Chọn số tiền trả trước'
 									onChange={handleShinhanChange}
+								/>
+							)}
+							{activeTab === 'mcredit' && (
+								<Select
+									options={mcreditPaymentOptions}
+									styles={customStyles}
+									placeholder='Chọn số tiền trả trước'
+									onChange={handleMcreditChange}
+								/>
+							)}
+							{activeTab === 'home-credit' && (
+								<Select
+									options={homeCreditPaymentOptions}
+									styles={customStyles}
+									placeholder='Chọn số tiền trả trước'
+									onChange={handleHomeCreditChange}
 								/>
 							)}
 						</div>
