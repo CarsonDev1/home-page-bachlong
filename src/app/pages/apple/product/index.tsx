@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react/no-unescaped-entities */
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -11,274 +8,485 @@ import Link from 'next/link';
 import Container from '@/app/components/Container';
 import Section from '@/app/components/Section';
 import 'swiper/css';
+import { useQuery } from '@tanstack/react-query';
 
-const slidesData = [
-    {
-        tabs: [
-            { label: 'iPhone 16 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPhone 15 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPhone 14 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPhone 13 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' }
-        ],
-        content: Array.from({ length: 10 }).map((_, index) => ({
-            name: `iPhone ${index + 1}`,
-            image: `/apple/product-iphone.png`,
-            price: `${(index + 1) * 1000000} VND`
-        }))
-    },
-    {
-        tabs: [
-            { label: 'iPad Pro', contentHeader: 'IPAD DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPad Air', contentHeader: 'IPAD DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPad Mini', contentHeader: 'IPAD DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPad', contentHeader: 'IPAD DẪN ĐẦU GIÁ RẺ' }
-        ],
-        content: Array.from({ length: 10 }).map((_, index) => ({
-            name: `iPad ${index + 1}`,
-            image: `/apple/product-ipad.png`,
-            price: `${(index + 1) * 1000000} VND`
-        }))
-    },
-    {
-        tabs: [
-            { label: 'Apple Watch Series 8', contentHeader: 'WATCH DẪN ĐẦU GIÁ RẺ' },
-            { label: 'Apple Watch SE', contentHeader: 'WATCH DẪN ĐẦU GIÁ RẺ' },
-            { label: 'Apple Watch Ultra', contentHeader: 'WATCH DẪN ĐẦU GIÁ RẺ' },
-            { label: 'Apple Watch Series 7', contentHeader: 'WATCH DẪN ĐẦU GIÁ RẺ' }
-        ],
-        content: Array.from({ length: 10 }).map((_, index) => ({
-            name: `Watch ${index + 1}`,
-            image: `/apple/product-watch.jpg`,
-            price: `${(index + 1) * 1000000} VND`
-        }))
-    },
-    {
-        tabs: [
-            { label: 'MacBook Air', contentHeader: 'MAC DẪN ĐẦU GIÁ RẺ' },
-            { label: 'MacBook Pro', contentHeader: 'MAC DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iMac', contentHeader: 'MAC DẪN ĐẦU GIÁ RẺ' },
-            { label: 'Mac Mini', contentHeader: 'MAC DẪN ĐẦU GIÁ RẺ' }
-        ],
-        content: Array.from({ length: 10 }).map((_, index) => ({
-            name: `Mac ${index + 1}`,
-            image: `/apple/product-macbook.png`,
-            price: `${(index + 1) * 1000000} VND`
-        }))
-    },
-    {
-        tabs: [
-            { label: 'AirPods Pro', contentHeader: 'AIRPODS DẪN ĐẦU GIÁ RẺ' },
-            { label: 'AirPods 2', contentHeader: 'AIRPODS DẪN ĐẦU GIÁ RẺ' },
-            { label: 'AirPods Max', contentHeader: 'AIRPODS DẪN ĐẦU GIÁ RẺ' },
-            { label: 'AirPods 3', contentHeader: 'AIRPODS DẪN ĐẦU GIÁ RẺ' }
-        ],
-        content: Array.from({ length: 10 }).map((_, index) => ({
-            name: `AirPods ${index + 1}`,
-            image: `/apple/product-airpod.jpeg`,
-            price: `${(index + 1) * 1000000} VND`
-        }))
-    },
-    {
-        tabs: [
-            { label: 'AirPods Pro', contentHeader: 'PHỤ KIỆN' },
-            { label: 'Iphone', contentHeader: 'PHỤ KIỆN' },
-            { label: 'Samsung', contentHeader: 'PHỤ KIỆN' },
-            { label: 'Loa', contentHeader: 'PHỤ KIỆN' }
-        ],
-        content: Array.from({ length: 10 }).map((_, index) => ({
-            name: `AirPods ${index + 1}`,
-            image: `/apple/product-airpod.jpeg`,
-            price: `${(index + 1) * 1000000} VND`
-        }))
+export interface Product {
+	id: number;
+	name: string;
+	url_key: string;
+	image: {
+		url: string;
+	};
+	attributes: any;
+	price_range: {
+		minimum_price: {
+			final_price: {
+				value: number;
+				currency: string;
+			};
+		};
+	};
+}
+
+const query = `
+ query getProducts(
+  $search: String
+  $filter: ProductAttributeFilterInput
+  $sort: ProductAttributeSortInput
+  $pageSize: Int
+  $currentPage: Int
+) {
+  products(
+    search: $search
+    filter: $filter
+    sort: $sort
+    pageSize: $pageSize
+    currentPage: $currentPage
+  ) {
+    items {
+      ...ProductInterfaceField
     }
-];
+    aggregations {
+      attribute_code
+      count
+      label
+      options {
+        count
+        label
+        value
+        swatch_data {
+          type
+          value
+        }
+      }
+      position
+    }
+    sort_fields {
+      default
+      options {
+        label
+        value
+      }
+    }
+    total_count
+    page_info {
+      current_page
+      page_size
+      total_pages
+    }  }
+}
+fragment ProductInterfaceField on ProductInterface {
+ image_banner
+  __typename
+  sku
+  uid
+  name
+  url_key
+  url_suffix
+  canonical_url
+  stock_status
+  categories {
+    __typename
+    name
+    url_key
+    url_path
+    level
+    uid
+    position
+    icon_image
+    image
+    path
+  }
+  id
+  meta_description
+  meta_keyword
+  meta_title
+  new_from_date
+  new_to_date
+  rating_summary
+  review_count
+  thumbnail {
+    url
+    position
+  }
+  image {
+    url
+  }
+  price_range {
+    ...PriceRangeField
+  }
+  ...CustomField
+}
+fragment CustomField on ProductInterface {
+  color
+  country_of_manufacture
+  daily_sale {
+    end_date
+    entity_id
+    sale_price
+    sale_qty
+    saleable_qty
+    sold_qty
+    start_date
+    __typename
+  }
+  rating_summary_start {
+    star_1
+    star_2
+    star_3
+    star_4
+    star_5
+  }
+  attributes {
+    attribute_code
+    label
+    value
+  }
+}
+fragment PriceRangeField on PriceRange {
+  __typename
+  maximum_price {
+    ...ProductPriceField
+  }
+  minimum_price {
+    ...ProductPriceField
+  }
+}
+fragment ProductPriceField on ProductPrice {
+  discount {
+    amount_off
+    percent_off
+  }
+  final_price {
+    currency
+    value
+  }
+  regular_price {
+    currency
+    value
+  }
+}
+`;
 
-const ProductList = ({ productRefs }: { productRefs: React.MutableRefObject<Array<HTMLDivElement | null>> }) => {
-    const [loading, setLoading] = useState(Array(slidesData.length).fill(false));
-    const [deviceType, setDeviceType] = useState<string>('active');
+const variables = {
+	filter: {
+		category_uid: {
+			eq: 'NTc=',
+		},
+	},
+	pageSize: 900,
+	currentPage: 1,
+};
 
-    const handleDeviceTypeChange = (type: string) => {
-        setDeviceType(type);
-    };
+async function fetchProductListData() {
+	const response = await fetch('https://beta-api.bachlongmobile.com/graphql', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			query,
+			variables,
+		}),
+	});
 
-    const renderSwiperSlides = (products: Array<{ name: string, image: string, price: string }>) => (
-        products.map((product, index) => (
-            <Link href={`/detail/${product.name}`} key={index}>
-                <div
-                    className='bg-white rounded-lg shadow-md p-4 h-full flex flex-col justify-between transition-transform duration-300 ease-in-out relative group border border-transparent hover:border-primary'
-                >
-                    <Image src='/frame-product.png' width={500} height={100} alt='frame-product' className='absolute w-full top-0 sm:-top-6 md:-top-2 xl:top-8 left-0 z-10' />
-                    <div className='relative pb-64 md:pb-60 lg:pb-56'>
-                        <Image
-                            src={product.image}
-                            alt={product.name}
-                            width={500}
-                            height={500}
-                            className='w-full absolute top-0 left-0 object-cover rounded-md transition-transform duration-500 ease-in-out group-hover:scale-105'
-                        />
-                    </div>
-                    <div className='z-10'>
-                        <h3 className='text-lg font-semibold mt-2'>{product.name}</h3>
-                        <p className='text-red-500 font-bold text-xl'>{product.price}</p>
-                    </div>
-                </div>
-            </Link>
-        ))
-    );
+	const data = await response.json();
+	return data.data.products.items as Product[];
+}
 
-    const renderSwiper = (index: number) => {
-        const { tabs, content } = slidesData[index];
-        const [currentTab, setCurrentTab] = useState(0);
-        const products = content;
-        return (
-            <div className='w-full flex flex-col gap-4' ref={(el: HTMLDivElement | null) => { if (el) productRefs.current[index] = el; }}>
-                <Image src={`/apple/product-banner-0${index + 1}.png`} width={1820} height={1200} alt={`product-banner-${index + 1}`} />
-                <div className='flex justify-between items-center w-full h-full p-2 lg:p-4 rounded-lg'>
-                    <div className='relative flex overflow-hidden w-full'>
-                        <div className="hidden lg:flex flex-wrap items-center gap-4">
-                            {tabs.map((item, tabIndex) => (
-                                <button
-                                    key={tabIndex}
-                                    className={`py-1 md:py-2 px-2 md:px-4 w-full lg:w-fit rounded-full border ${currentTab === tabIndex ? 'bg-primary text-gray-900' : 'border-slate-200 text-primary'}`}
-                                    onClick={() => {
-                                        setLoading(prev => {
-                                            const newLoading = [...prev];
-                                            newLoading[index] = true;
-                                            return newLoading;
-                                        });
-                                        setTimeout(() => {
-                                            setCurrentTab(tabIndex);
-                                            setLoading(prev => {
-                                                const newLoading = [...prev];
-                                                newLoading[index] = false;
-                                                return newLoading;
-                                            });
-                                        }, 500);
-                                    }}
-                                >
-                                    <span className='text-xs lg:text-sm'>{item.label}</span>
-                                </button>
-                            ))}
-                        </div>
-                        <div className="lg:hidden w-full">
-                            <Swiper
-                                spaceBetween={10}
-                                slidesPerView='auto'
-                                speed={1000}
-                                breakpoints={{
-                                    0: {
-                                        slidesPerView: 2.5,
-                                    },
-                                    676: {
-                                        slidesPerView: 4,
-                                    },
-                                    1024: {
-                                        slidesPerView: 5,
-                                    },
-                                }}
-                            >
-                                {tabs.map((item, tabIndex) => (
-                                    <SwiperSlide key={tabIndex}>
-                                        <button
-                                            className={`py-1 md:py-2 px-2 md:px-4 w-full rounded-full border ${currentTab === tabIndex ? 'bg-primary text-gray-900' : 'border-slate-200 text-primary'}`}
-                                            onClick={() => {
-                                                setLoading(prev => {
-                                                    const newLoading = [...prev];
-                                                    newLoading[index] = true;
-                                                    return newLoading;
-                                                });
-                                                setTimeout(() => {
-                                                    setCurrentTab(tabIndex);
-                                                    setLoading(prev => {
-                                                        const newLoading = [...prev];
-                                                        newLoading[index] = false;
-                                                        return newLoading;
-                                                    });
-                                                }, 500);
-                                            }}
-                                        >
-                                            <span className='text-xs font-semibold lg:text-sm'>{item.label}</span>
-                                        </button>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex gap-4 justify-start text-white">
-                    <label className="flex items-center gap-2">
-                        <input
-                            type="radio"
-                            value="active"
-                            checked={deviceType === 'active'}
-                            onChange={() => handleDeviceTypeChange('active')}
-                            className="form-radio"
-                        />
-                        <span>Máy Active</span>
-                    </label>
-                    <label className="flex items-center gap-2">
-                        <input
-                            type="radio"
-                            value="online"
-                            checked={deviceType === 'online'}
-                            onChange={() => handleDeviceTypeChange('online')}
-                            className="form-radio"
-                        />
-                        <span>Máy Active Online</span>
-                    </label>
-                </div>
+const ProductList: React.FC = () => {
+	const { data, error, isLoading } = useQuery<Product[]>({
+		queryKey: ['productListData'],
+		queryFn: fetchProductListData,
+		staleTime: 300000,
+	});
 
-                {loading[index] ? (
-                    <div className="flex justify-center items-center h-64">
-                        <div className="w-16 h-16 border-4 border-t-4 border-t-yellow-400 border-gray-200 rounded-full animate-spin"></div>
-                    </div>
-                ) : (
-                    <Swiper
-                        spaceBetween={10}
-                        slidesPerView={'auto'}
-                        breakpoints={{
-                            375: {
-                                slidesPerView: 2,
-                                spaceBetween: 10,
-                            },
-                            768: {
-                                slidesPerView: 3,
-                                spaceBetween: 15,
-                            },
-                            1024: {
-                                slidesPerView: 4,
-                                spaceBetween: 20,
-                            },
-                            1280: {
-                                slidesPerView: 5,
-                                spaceBetween: 25,
-                            },
-                        }}
-                        className='w-full h-full'
-                        speed={1000}
-                        navigation={true}
-                        modules={[Navigation]}
-                    >
-                        {renderSwiperSlides(products).map((slide, slideIndex) => (
-                            <SwiperSlide key={slideIndex}>
-                                {slide}
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                )}
-            </div>
-        );
-    };
+	const [activeTab, setActiveTab] = useState<string>('iPhone 16');
+	const [activeSubTab, setActiveSubTab] = useState<string>('');
+	const [filteredData, setFilteredData] = useState<Product[]>([]);
+	const [visibleCount, setVisibleCount] = useState<number>(10);
 
-    return (
-        <Section>
-            <Container>
-                <div className='flex flex-col gap-4 md:gap-7 lg:gap-10 items-center'>
-                    {slidesData.map((_, index) => renderSwiper(index))}
-                </div>
-            </Container>
-        </Section>
-    );
+	const tabs = [
+		{
+			name: 'iPhone 16',
+			subTabs: ['iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16'],
+		},
+		{
+			name: 'iPhone 15',
+			subTabs: ['iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15'],
+		},
+		{
+			name: 'iPhone 14',
+			subTabs: ['iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14'],
+		},
+		{
+			name: 'iPhone 13',
+			subTabs: ['iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13', 'iPhone 13 Mini'],
+		},
+		{
+			name: 'iPhone 12',
+			subTabs: ['iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 12', 'iPhone 12 Mini'],
+		},
+		{
+			name: 'iPhone 11',
+			subTabs: ['iPhone 11 Pro Max', 'iPhone 11 Pro', 'iPhone 11'],
+		},
+		{
+			name: 'iPhone XS Max',
+			subTabs: [],
+		},
+		{
+			name: 'iPhone XS',
+			subTabs: [],
+		},
+		{
+			name: 'iPhone XR',
+			subTabs: [],
+		},
+	];
+
+	useEffect(() => {
+		const filtered = data?.filter((product) => {
+			const matchesTab =
+				(activeTab === 'iPhone 16' && activeSubTab === 'iPhone 16') ||
+				(activeTab === 'iPhone 15' && activeSubTab === 'iPhone 15') ||
+				(activeTab === 'iPhone 14' && activeSubTab === 'iPhone 14') ||
+				(activeTab === 'iPhone 13' && activeSubTab === 'iPhone 13') ||
+				(activeTab === 'iPhone 12' && activeSubTab === 'iPhone 12') ||
+				(activeTab === 'iPhone 11' && activeSubTab === 'iPhone 11') ||
+				(activeTab === 'iPhone XS' && activeSubTab === '')
+					? product.name.includes(activeTab) &&
+					  !product.name.includes('Pro') &&
+					  !product.name.includes('Plus') &&
+					  !product.name.includes('Max') &&
+					  !product.name.includes('Mini')
+					: product.name.includes(activeTab);
+
+			const matchesSubTab = activeSubTab
+				? activeSubTab.includes('Pro Max')
+					? product.name.includes('Pro Max')
+					: activeSubTab.includes('Pro')
+					? product.name.includes('Pro') && !product.name.includes('Pro Max')
+					: product.name.includes(activeSubTab)
+				: true;
+
+			return matchesTab && matchesSubTab;
+		});
+		setFilteredData(filtered || []);
+
+		const handleResize = () => {
+			if (window.innerWidth < 768) {
+				setVisibleCount(4);
+			} else {
+				setVisibleCount(10);
+			}
+		};
+
+		handleResize();
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, [data, activeTab, activeSubTab]);
+
+	if (isLoading) {
+		return (
+			<div className='loading container-spin'>
+				<div className='w-16 h-16 border-4 border-t-4 border-t-yellow-400 border-gray-200 rounded-full animate-spin'></div>
+			</div>
+		);
+	}
+
+	if (error) {
+		return <div>Error loading data</div>;
+	}
+
+	const visibleProducts = filteredData.slice(0, visibleCount);
+
+	const loadMore = () => {
+		setVisibleCount((prevCount) => prevCount + 5);
+	};
+
+	return (
+		<Section>
+			<Container>
+				<div className='product-list'>
+					<div className='upgrade-list'>
+						<div className='container'>
+							<div className='tabs'>
+								{window.innerWidth < 768 ? (
+									<Swiper
+										spaceBetween={10}
+										slidesPerView='auto'
+										breakpoints={{
+											375: {
+												slidesPerView: 3.7,
+											},
+											768: {
+												slidesPerView: 3.2,
+											},
+										}}
+									>
+										{tabs.map((tab) => (
+											<SwiperSlide key={tab.name}>
+												<button
+													onClick={() => {
+														setActiveTab(tab.name);
+														setActiveSubTab('');
+													}}
+													className={activeTab === tab.name ? 'tab active' : 'tab'}
+													style={{
+														color: activeTab === tab.name ? 'white' : '#000',
+														backgroundColor: activeTab === tab.name ? '#ef373e' : '#f1f1f1',
+														border:
+															activeTab === tab.name
+																? '1px solid #ef373e'
+																: '1px solid #ccc',
+														padding: '10px 20px',
+														margin: '5px',
+														borderRadius: '5px',
+														cursor: 'pointer',
+														fontSize: '1.2rem',
+													}}
+												>
+													{tab.name}
+												</button>
+											</SwiperSlide>
+										))}
+									</Swiper>
+								) : (
+									tabs.map((tab) => (
+										<div key={tab.name} style={{ marginBottom: '10px' }}>
+											<button
+												onClick={() => {
+													setActiveTab(tab.name);
+													setActiveSubTab('');
+												}}
+												className={activeTab === tab.name ? 'tab active' : 'tab'}
+												style={{
+													color: activeTab === tab.name ? 'white' : '#000',
+													backgroundColor: activeTab === tab.name ? '#ef373e' : '#f1f1f1',
+													border:
+														activeTab === tab.name ? '1px solid #ef373e' : '1px solid #ccc',
+													padding: '10px 20px',
+													margin: '5px',
+													borderRadius: '5px',
+													cursor: 'pointer',
+												}}
+											>
+												{tab.name}
+											</button>
+										</div>
+									))
+								)}
+							</div>
+
+							{(tabs.find((tab) => tab.name === activeTab)?.subTabs?.length ?? 0) > 0 && (
+								<div style={{ display: 'flex', marginBottom: '12px' }} className='sub-tab-list'>
+									{tabs
+										.find((tab) => tab.name === activeTab)
+										?.subTabs.map((subTab) => (
+											<button
+												key={subTab}
+												onClick={() => setActiveSubTab(subTab)}
+												className={activeSubTab === subTab ? 'sub-tab active' : 'sub-tab'}
+												style={{
+													color: activeSubTab === subTab ? 'white' : '#000',
+													backgroundColor: activeSubTab === subTab ? '#ef373e' : '#f1f1f1',
+													border:
+														activeSubTab === subTab
+															? '1px solid #ef373e'
+															: '1px solid #ccc',
+													padding: '5px 10px',
+													margin: '5px',
+													borderRadius: '5px',
+													cursor: 'pointer',
+												}}
+											>
+												{subTab}
+											</button>
+										))}
+								</div>
+							)}
+
+							<div className='upgrade'>
+								{visibleProducts.map((product, index) => (
+									<Link
+										key={index}
+										href={`https://bachlongmobile.com/products/${product.url_key}`}
+										passHref
+										target='_blank'
+										rel='noopener noreferrer'
+										style={{ textDecoration: 'none', color: 'black' }}
+									>
+										<div className='upgrade-item'>
+											<div className='upgrade-item-header'>
+												<span className='percent'>Trả góp 0%</span>
+												{/* <Image src={Author} width={60} height={20} quality={100} alt='author' /> */}
+											</div>
+											<div className='upgrade-item-img'>
+												<Image
+													src={product.image.url}
+													width={1400}
+													height={1200}
+													quality={100}
+													alt={`product-${index}`}
+												/>
+											</div>
+											<div className='upgrade-item-content'>
+												<h4 className='upgrade-item-content-tt'>{product.name}</h4>
+												<div className='upgrade-item-content-body'>
+													<div className='upgrade-item-content-body-price'>
+														{product.price_range.minimum_price.final_price.value.toLocaleString(
+															'vi-VN'
+														)}{' '}
+														{product.price_range.minimum_price.final_price.currency}
+													</div>
+													<div className='upgrade-item-content-body-reduced'>
+														<div className='price-reduced'>
+															{product.attributes && product.attributes[0]?.value
+																? Number(product.attributes[0].value).toLocaleString(
+																		'vi-VN'
+																  )
+																: ''}{' '}
+															{product.attributes[0].value &&
+																product.price_range.minimum_price.final_price.currency}
+														</div>
+
+														{product.attributes[0].value && (
+															<div className='percent'>
+																-
+																{Math.ceil(
+																	((product.attributes[0].value -
+																		product.price_range.minimum_price.final_price
+																			.value) /
+																		product.attributes[0].value) *
+																		100
+																)}
+																%
+															</div>
+														)}
+													</div>
+												</div>
+											</div>
+										</div>
+									</Link>
+								))}
+							</div>
+							{visibleCount < filteredData.length && (
+								<div style={{ textAlign: 'center', marginTop: '20px' }}>
+									<button onClick={loadMore} className='button'>
+										<span className='button-content'>Xem thêm</span>
+									</button>
+								</div>
+							)}
+						</div>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
 };
 
 export default ProductList;

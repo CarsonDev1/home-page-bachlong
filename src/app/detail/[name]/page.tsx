@@ -13,9 +13,214 @@ import { FaCartPlus, FaCheck } from 'react-icons/fa';
 import { LuTicket } from 'react-icons/lu';
 import { MdOutlineAddBox } from 'react-icons/md';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+
+export interface Product {
+	id: number;
+	name: string;
+	url_key: string;
+	image: {
+		url: string;
+	};
+	attributes: any;
+	price_range: {
+		minimum_price: {
+			final_price: {
+				value: number;
+				currency: string;
+			};
+		};
+	};
+}
+
+const query = `
+query router($url:String!){route(url:$url){... on ConfigurableProduct{...ProductFields Installment_products image_banner categories{__typename name id uid level url_path parent_id}media_gallery{__typename url label disabled position ... on ProductVideo{video_content{video_provider video_url video_title media_type video_metadata}}}...PoductFiledConfigurable ...ConfigurableProductField options{...CustomizableOption}}... on SimpleProduct{...ProductFields image_banner __typename categories{__typename name uid level url_path}media_gallery{__typename url label disabled position ... on ProductVideo{video_content{video_provider video_url video_title media_type video_metadata}}}...PoductFiledSimple options{...CustomizableOption}}}}fragment PoductFiledSimple on ProductInterface{Installment_products attribute_set_id canonical_url category_for_product color country_of_manufacture created_at gift_message_available id manufacturer meta_description meta_keyword meta_title name new_from_date new_to_date only_x_left_in_stock options_container percent rating_summary review_count sku special_from_date special_price special_to_date stock_status swatch_image type_id uid updated_at url_key url_path url_suffix attributes{attribute_code label value}image{__typename disabled label position url}special_price price_range{__typename maximum_price{__typename discount{__typename amount_off percent_off}final_price{__typename currency value}}minimum_price{__typename discount{__typename amount_off percent_off}final_price{__typename currency value}}}short_description{html}description{html}}fragment PoductFiledConfigurable on ProductInterface{attribute_set_id category_for_product color country_of_manufacture created_at id manufacturer meta_description meta_keyword meta_title name options_container rating_summary sku special_from_date special_price special_to_date stock_status swatch_image type_id uid updated_at url_key url_path url_suffix accessories_bought_together{sku attribute_set_id canonical_url category_for_product color country_of_manufacture id manufacturer meta_description meta_keyword meta_title name new_from_date new_to_date options_container percent rating_summary review_count special_from_date special_price special_to_date stock_status swatch_image type_id uid url_key url_path attributes{attribute_code label value}image{disabled label position url}price_range{minimum_price{discount{amount_off percent_off}final_price{currency value}regular_price{currency value}}maximum_price{final_price{currency value}regular_price{currency value}}}reviews{items{average_rating created_at nickname summary text}}small_image{disabled label position url}thumbnail{disabled label position url}}old_products{sku attribute_set_id canonical_url category_for_product color id manufacturer meta_description meta_keyword meta_title name options_container percent rating_summary review_count special_from_date special_price special_to_date stock_status swatch_image type_id uid updated_at url_key url_path attributes{attribute_code label value}image{disabled label position url}price_range{minimum_price{discount{amount_off percent_off}final_price{currency value}regular_price{currency value}}maximum_price{final_price{currency value}regular_price{currency value}}}reviews{items{average_rating created_at nickname summary text}}small_image{disabled label position url}thumbnail{disabled label position url}}upsell_products{sku attribute_set_id canonical_url category_for_product color country_of_manufacture id manufacturer meta_description meta_keyword meta_title name options_container percent rating_summary review_count special_from_date special_price special_to_date stock_status swatch_image type_id uid url_key url_path attributes{attribute_code label value}image{disabled label position url}price_range{minimum_price{discount{amount_off percent_off}final_price{currency value}regular_price{currency value}}}reviews{items{average_rating created_at nickname summary text}}small_image{disabled label position url}thumbnail{disabled label position url}}related_products{sku attribute_set_id canonical_url category_for_product color country_of_manufacture id manufacturer meta_description meta_keyword meta_title name options_container percent rating_summary review_count special_from_date special_price special_to_date stock_status swatch_image type_id uid url_key url_path attributes{attribute_code label value}image{disabled label position url}price_range{minimum_price{discount{amount_off percent_off}final_price{currency value}regular_price{currency value}}}reviews{items{average_rating created_at nickname summary text}}small_image{disabled label position url}thumbnail{disabled label position url}}crosssell_products{name category_for_product color created_at id meta_title name options_container rating_summary sku special_from_date special_price special_to_date stock_status swatch_image type_id uid updated_at url_key url_path price_range{minimum_price{__typename discount{__typename amount_off percent_off}final_price{__typename currency value}regular_price{__typename currency value}}}attributes{attribute_code label value}image{disabled label position url}small_image{disabled label position url}...ConfigurableProductField}attributes{attribute_code label value}image{disabled label position url}price_range{minimum_price{__typename discount{__typename amount_off percent_off}final_price{__typename currency value}regular_price{__typename currency value}}}review_count short_description{html}description{html}small_image{disabled label position url}thumbnail{disabled label position url}}fragment ConfigurableProductField on ConfigurableProduct{configurable_options{label attribute_code uid attribute_uid values{default_label label uid swatch_data{__typename value}}}configurable_product_options_selection{__typename configurable_options{attribute_code label uid values{__typename uid label is_use_default is_available}}}variants{attributes{code label uid value_index}product{__typename sku name daily_sale{sale_price}image{url}price_range{maximum_price{__typename discount{__typename amount_off percent_off}final_price{__typename currency value}}minimum_price{discount{__typename amount_off percent_off}final_price{__typename currency value}regular_price{__typename currency value}}}small_image{__typename disabled label position url}url_key}}}fragment CustomizableOption on CustomizableOptionInterface{... on CustomizableDropDownOption{option_id required sort_order title uid value{option_type_id price price_type title sort_order uid}}}fragment ProductFields on ProductInterface{daily_sale{end_date entity_id sale_price sale_qty saleable_qty sold_qty start_date __typename}}
+`;
+
+const variables = {
+	url: 'iphone-16-plus-512gb-chinh-hang-vn-a',
+};
+
+async function fetchProductListData() {
+	const response = await fetch('https://beta-api.bachlongmobile.com/graphql', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			query,
+			variables,
+		}),
+	});
+
+	const data = await response.json();
+	return data.data.route;
+}
 
 const DetailPage = () => {
-	const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+	const { data, error, isLoading } = useQuery<Product>({
+		queryKey: ['productListData'],
+		queryFn: fetchProductListData,
+		staleTime: 300000,
+	});
+
+	if (!data) {
+		return <div>Loading...</div>;
+	}
+
+	const productLine = data.attributes?.find((attr: any) => attr.attribute_code === 'dong_san_pham');
+	console.log(productLine?.value);
+
+	// const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+
+	const contentForProductLine = (
+		<>
+			<div className='rounded-tl-md rounded-tr-md bg-gradient-to-r from-yellow-400 to-red-600 p-2 text-lg font-semibold'>
+				<div className='flex items-center gap-2'>
+					<Image src='/fire.gif' width={30} height={30} alt='fire-gif' />
+					<span className='text-white'>KHUYẾN MÃI HOT</span>
+				</div>
+				<div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
+					<div className='space-y-3'>
+						<div className='flex'>
+							<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
+								1
+							</span>
+							<span>
+								<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI LỚN: Cơ hội trúng
+								iPhone 16 trị giá hơn {''}
+								<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm sạc PISEN trị giá
+								đến <span className='text-red-600 font-bold'>5.000.000đ</span>
+							</span>
+						</div>
+						<div className='flex'>
+							<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
+								2
+							</span>
+							<span>
+								<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI LỚN: Cơ hội trúng
+								iPhone 16 trị giá hơn {''}
+								<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm sạc PISEN trị giá
+								đến <span className='text-red-600 font-bold'>5.000.000đ</span>
+							</span>
+						</div>
+						<div className='flex'>
+							<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
+								3
+							</span>
+							<span>
+								<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI LỚN: Cơ hội trúng
+								iPhone 16 trị giá hơn {''}
+								<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm sạc PISEN trị giá
+								đến <span className='text-red-600 font-bold'>5.000.000đ</span>
+							</span>
+						</div>
+						<div className='flex'>
+							<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
+								4
+							</span>
+							<span>
+								<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI LỚN: Cơ hội trúng
+								iPhone 16 trị giá hơn {''}
+								<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm sạc PISEN trị giá
+								đến <span className='text-red-600 font-bold'>5.000.000đ</span>
+							</span>
+						</div>
+						<div className='flex'>
+							<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
+								5
+							</span>
+							<span>
+								<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI LỚN: Cơ hội trúng
+								iPhone 16 trị giá hơn {''}
+								<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm sạc PISEN trị giá
+								đến <span className='text-red-600 font-bold'>5.000.000đ</span>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div className='border border-slate-200 rounded-md flex flex-col shadow-lg'>
+				<div className='rounded-tl-md rounded-tr-md bg-black text-white p-3 text-lg font-semibold'>
+					<div className='flex gap-2 items-center'>
+						<LuTicket className='text-primary' />
+						<span className='text-primary'>TIỆN ÍCH ĐỘC QUYỀN</span>
+					</div>
+				</div>
+				<div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
+					<div className='space-y-3'>
+						<div className='flex'>
+							<span className='font-bold mr-2'>✔️</span>
+							<span>
+								Giảm thêm <span className='font-bold text-red-600'>1.200.000đ</span> khi mua Gói Bảo
+								Hành Toàn Diện - Lỗi Đổi NGAY.
+							</span>
+						</div>
+						<div className='flex'>
+							<span className='font-bold mr-2'>✔️</span>
+							<span>
+								Giảm thêm <span className='font-bold text-red-600'>1.200.000đ</span> khi mua Gói Bảo
+								Hành Toàn Diện - Lỗi Đổi NGAY.
+							</span>
+						</div>
+						<div className='flex'>
+							<span className='font-bold mr-2'>✔️</span>
+							<span>
+								Giảm thêm <span className='font-bold text-red-600'>1.200.000đ</span> khi mua Gói Bảo
+								Hành Toàn Diện - Lỗi Đổi NGAY.
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div className='border border-slate-200 rounded-md flex flex-col shadow-lg'>
+				<div className='rounded-tl-md rounded-tr-md bg-[#8f7c71] text-white p-3 text-lg font-semibold'>
+					<div className='flex items-center gap-2 text-white font-bold'>
+						<MdOutlineAddBox /> ƯU ĐÃI THÊM
+					</div>
+				</div>
+				<div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
+					<div className='space-y-3'>
+						<div className='flex gap-2'>
+							<span className='font-boldmr-2 shadow-lg h-fit text-red-500'>➕</span>
+							<span>
+								Ưu đãi khi mua kèm Apple Watch giảm{' '}
+								<span className='text-red-600 font-bold'>1.000.000đ</span>
+							</span>
+						</div>
+						<div className='flex gap-2'>
+							<span className='font-boldmr-2 shadow-lg h-fit text-red-500'>➕</span>
+							<span>
+								Ưu đãi khi mua kèm Macbook giảm <span className='text-red-600 font-bold'>500.000đ</span>
+							</span>
+						</div>
+						<div className='flex gap-2'>
+							<span className='font-boldmr-2 shadow-lg h-fit text-red-500'>➕</span>
+							<span>
+								Ưu đãi khi mua kèm Airpord giảm{' '}
+								<span className='text-red-600 font-bold'>1.000.000đ</span>
+							</span>
+						</div>
+						<div className='flex gap-2'>
+							<span className='font-boldmr-2 shadow-lg h-fit text-red-500'>➕</span>
+							<span>
+								Ưu đãi khi mua kèm Ốp lưng giảm{' '}
+								<span className='text-red-600 font-bold'>1.000.000đ</span>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
+	);
+
+	const alternativeContent = (
+		<div>
+			<h2>This is alternative content for other product lines.</h2>
+		</div>
+	);
 
 	return (
 		<div className='pt-32'>
@@ -30,7 +235,7 @@ const DetailPage = () => {
 										prevEl: '.swiper-button-prev',
 										nextEl: '.swiper-button-next',
 									}}
-									thumbs={{ swiper: thumbsSwiper }}
+									// thumbs={{ swiper: thumbsSwiper }}
 									modules={[Thumbs]}
 									className='mb-2 main-swiper'
 								>
@@ -84,7 +289,7 @@ const DetailPage = () => {
 									</SwiperSlide>
 								</Swiper>
 								<Swiper
-									onSwiper={setThumbsSwiper}
+									// onSwiper={setThumbsSwiper}
 									spaceBetween={10}
 									slidesPerView={4}
 									freeMode={true}
@@ -272,109 +477,9 @@ const DetailPage = () => {
 								/>
 							</Link>
 							<div className='border border-slate-200 rounded-md flex flex-col shadow-lg'>
-								<div className='rounded-tl-md rounded-tr-md bg-gradient-to-r from-yellow-400 to-red-600 text-white p-2 text-lg font-semibold'>
-									<div className='flex items-center gap-2'>
-										<Image src='/fire.gif' width={30} height={30} alt='fire-gif' />
-										<span className=''>KHUYẾN MÃI HOT</span>
-									</div>
-								</div>
-								<div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
-									<div className='space-y-3'>
-										<div className='flex'>
-											<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
-												1
-											</span>
-											<span>
-												<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI
-												LỚN: Cơ hội trúng iPhone 16 trị giá hơn {''}
-												<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm
-												sạc PISEN trị giá đến{' '}
-												<span className='text-red-600 font-bold'>5.000.000đ</span>
-											</span>
-										</div>
-										<div className='flex'>
-											<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
-												2
-											</span>
-											<span>
-												<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI
-												LỚN: Cơ hội trúng iPhone 16 trị giá hơn {''}
-												<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm
-												sạc PISEN trị giá đến{' '}
-												<span className='text-red-600 font-bold'>5.000.000đ</span>
-											</span>
-										</div>
-										<div className='flex'>
-											<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
-												3
-											</span>
-											<span>
-												<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI
-												LỚN: Cơ hội trúng iPhone 16 trị giá hơn {''}
-												<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm
-												sạc PISEN trị giá đến{' '}
-												<span className='text-red-600 font-bold'>5.000.000đ</span>
-											</span>
-										</div>
-										<div className='flex'>
-											<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
-												4
-											</span>
-											<span>
-												<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI
-												LỚN: Cơ hội trúng iPhone 16 trị giá hơn {''}
-												<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm
-												sạc PISEN trị giá đến{' '}
-												<span className='text-red-600 font-bold'>5.000.000đ</span>
-											</span>
-										</div>
-										<div className='flex'>
-											<span className='font-bold bg-gradient-to-r from-yellow-500 to-red-500 text-white py-1 px-2 text-xs rounded-full mr-2 shadow-lg transform transition-transform duration-300 hover:scale-105 h-fit'>
-												5
-											</span>
-											<span>
-												<span className='font-bold'>[Tháng 9]:</span> TẾT APPLE - TẾT LỚN CHƠI
-												LỚN: Cơ hội trúng iPhone 16 trị giá hơn {''}
-												<span className='text-red-600 font-bold'>21.000.000đ</span> hoặc trạm
-												sạc PISEN trị giá đến{' '}
-												<span className='text-red-600 font-bold'>5.000.000đ</span>
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className='border border-slate-200 rounded-md flex flex-col shadow-lg'>
-								<div className='rounded-tl-md rounded-tr-md bg-black text-white p-3 text-lg font-semibold'>
-									<div className='flex gap-2 items-center'>
-										<LuTicket className='text-primary' />{' '}
-										<span className='text-primary'>TIỆN ÍCH ĐỘC QUYỀN</span>
-									</div>
-								</div>
-								<div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
-									<div className='space-y-3'>
-										<div className='flex'>
-											<span className='font-bold mr-2'>✔️</span>
-											<span>
-												Giảm thêm <span className='font-bold text-red-600'>1.200.000đ</span> khi
-												mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.
-											</span>
-										</div>
-										<div className='flex'>
-											<span className='font-bold mr-2'>✔️</span>
-											<span>
-												Giảm thêm <span className='font-bold text-red-600'>1.200.000đ</span> khi
-												mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.
-											</span>
-										</div>
-										<div className='flex'>
-											<span className='font-bold mr-2'>✔️</span>
-											<span>
-												Giảm thêm <span className='font-bold text-red-600'>1.200.000đ</span> khi
-												mua Gói Bảo Hành Toàn Diện - Lỗi Đổi NGAY.
-											</span>
-										</div>
-									</div>
-								</div>
+								{productLine?.value === 'Điện Thoại-MTB-Laptop'
+									? contentForProductLine
+									: alternativeContent}
 							</div>
 							<div className='flex items-center gap-1'>
 								<button className='relative w-2/3 h-16 px-4 rounded-md bg-red-600 isolation-auto z-10 border-2 border-red-500 before:absolute before:w-full before:transition-all before:duration-500 before:ease-in-out before:hover:w-full hover:text-red-600 before:-right-full before:hover:right-0 before:rounded-full before:bg-white before:-z-10 before:aspect-square before:hover:scale-110 overflow-hidden before:hover:duration-500 inline-flex items-center justify-center text-sm font-semibold text-white bg-red-600 border border-red-500 rounded-lg shadow-sm gap-x-2 hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none flex-col gap-1'>
@@ -397,46 +502,6 @@ const DetailPage = () => {
 									<span className='text-xl'>Trả góp 0% qua thẻ</span>
 									<span className='text-xs'>Visa, Master Card, JCB, AMEX</span>
 								</button>
-							</div>
-
-							<div className='border border-slate-200 rounded-md flex flex-col shadow-lg'>
-								<div className='rounded-tl-md rounded-tr-md bg-[#8f7c71] text-white p-3 text-lg font-semibold'>
-									<div className='flex items-center gap-2 text-white font-bold'>
-										<MdOutlineAddBox /> ƯU ĐÃI THÊM
-									</div>
-								</div>
-								<div className='p-5 text-sm bg-gray-50 rounded-md shadow-md'>
-									<div className='space-y-3'>
-										<div className='flex gap-2'>
-											<span className='font-boldmr-2 shadow-lg h-fit text-red-500'>➕</span>
-											<span>
-												Ưu đãi khi mua kèm Apple Watch giảm{' '}
-												<span className='text-red-600 font-bold'>1.000.000đ</span>
-											</span>
-										</div>
-										<div className='flex gap-2'>
-											<span className='font-boldmr-2 shadow-lg h-fit text-red-500'>➕</span>
-											<span>
-												Ưu đãi khi mua kèm Macbook giảm{' '}
-												<span className='text-red-600 font-bold'>500.000đ</span>
-											</span>
-										</div>
-										<div className='flex gap-2'>
-											<span className='font-boldmr-2 shadow-lg h-fit text-red-500'>➕</span>
-											<span>
-												Ưu đãi khi mua kèm Airpord giảm{' '}
-												<span className='text-red-600 font-bold'>1.000.000đ</span>
-											</span>
-										</div>
-										<div className='flex gap-2'>
-											<span className='font-boldmr-2 shadow-lg h-fit text-red-500'>➕</span>
-											<span>
-												Ưu đãi khi mua kèm Ốp lưng giảm{' '}
-												<span className='text-red-600 font-bold'>1.000.000đ</span>
-											</span>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>

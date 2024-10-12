@@ -1,250 +1,451 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable react/no-unescaped-entities */
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
 import { Navigation } from 'swiper/modules';
-import Section from '@/app/components/Section';
 import Link from 'next/link';
+import Container from '@/app/components/Container';
+import Section from '@/app/components/Section';
+import 'swiper/css';
+import { useQuery } from '@tanstack/react-query';
 
-const slidesData = [
-    {
-        tabs: [
-            { label: 'Tất cả iPhone', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPhone 16 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPhone 15 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPhone 14 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' },
-            { label: 'iPhone 13 Series', contentHeader: 'IPHONE DẪN ĐẦU GIÁ RẺ' }
-        ],
-        content: Array.from({ length: 10 }).map((_, index) => ({
-            name: `iPhone ${index + 1}`,
-            image: `/product-01.webp`,
-            price: `${(index + 1) * 1000000} VND`
-        }))
-    },
-    {
-        tabs: [
-            { label: 'Tất cả SamSung', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' },
-            { label: 'Galaxy S24 Series', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' },
-            { label: 'Galaxy S23 Series', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' },
-            { label: 'Galaxy S22 Series', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' },
-            { label: 'Galaxy S21 Series', contentHeader: 'SAMSUNG DẪN ĐẦU GIÁ RẺ' }
-        ],
-        content: Array.from({ length: 10 }).map((_, index) => ({
-            name: `SamSung ${index + 1}`,
-            image: `/product-02.webp`,
-            price: `${(index + 1) * 1000000} VND`
-        }))
+export interface Product {
+	id: number;
+	name: string;
+	url_key: string;
+	image: {
+		url: string;
+	};
+	attributes: any;
+	price_range: {
+		minimum_price: {
+			final_price: {
+				value: number;
+				currency: string;
+			};
+		};
+	};
+}
+
+const query = `
+ query getProducts(
+  $search: String
+  $filter: ProductAttributeFilterInput
+  $sort: ProductAttributeSortInput
+  $pageSize: Int
+  $currentPage: Int
+) {
+  products(
+    search: $search
+    filter: $filter
+    sort: $sort
+    pageSize: $pageSize
+    currentPage: $currentPage
+  ) {
+    items {
+      ...ProductInterfaceField
     }
-];
+    aggregations {
+      attribute_code
+      count
+      label
+      options {
+        count
+        label
+        value
+        swatch_data {
+          type
+          value
+        }
+      }
+      position
+    }
+    sort_fields {
+      default
+      options {
+        label
+        value
+      }
+    }
+    total_count
+    page_info {
+      current_page
+      page_size
+      total_pages
+    }  }
+}
+fragment ProductInterfaceField on ProductInterface {
+ image_banner
+  __typename
+  sku
+  uid
+  name
+  url_key
+  url_suffix
+  canonical_url
+  stock_status
+  categories {
+    __typename
+    name
+    url_key
+    url_path
+    level
+    uid
+    position
+    icon_image
+    image
+    path
+  }
+  id
+  meta_description
+  meta_keyword
+  meta_title
+  new_from_date
+  new_to_date
+  rating_summary
+  review_count
+  thumbnail {
+    url
+    position
+  }
+  image {
+    url
+  }
+  price_range {
+    ...PriceRangeField
+  }
+  ...CustomField
+}
+fragment CustomField on ProductInterface {
+  color
+  country_of_manufacture
+  daily_sale {
+    end_date
+    entity_id
+    sale_price
+    sale_qty
+    saleable_qty
+    sold_qty
+    start_date
+    __typename
+  }
+  rating_summary_start {
+    star_1
+    star_2
+    star_3
+    star_4
+    star_5
+  }
+  attributes {
+    attribute_code
+    label
+    value
+  }
+}
+fragment PriceRangeField on PriceRange {
+  __typename
+  maximum_price {
+    ...ProductPriceField
+  }
+  minimum_price {
+    ...ProductPriceField
+  }
+}
+fragment ProductPriceField on ProductPrice {
+  discount {
+    amount_off
+    percent_off
+  }
+  final_price {
+    currency
+    value
+  }
+  regular_price {
+    currency
+    value
+  }
+}
+`;
 
-const Category = () => {
-    const [loading, setLoading] = useState(Array(slidesData.length).fill(false));
-
-    const renderSwiperSlides = (products: Array<{ name: string, image: string, price: string }>) => (
-        products.map((product, index) => (
-            <Link href={`/detail/${product.name}`} key={index}>
-                <div
-                    className='bg-white rounded-lg shadow-md p-4 h-full flex flex-col justify-between transition-transform duration-300 ease-in-out relative group border border-transparent hover:border-primary'
-                >
-                    <Image src='/frame-product.png' width={500} height={100} alt='frame-product' className='absolute w-full top-8 sm:-top-8 md:-top-2 xl:top-8 left-0 z-10' />
-                    <div className='relative pb-56'>
-                        <Image
-                            src={product.image}
-                            alt={product.name}
-                            width={500}
-                            height={500}
-                            className='w-full absolute top-0 left-0 object-cover rounded-md transition-transform duration-500 ease-in-out group-hover:scale-105'
-                        />
-                    </div>
-                    <div className='z-10'>
-                        <h3 className='text-lg font-semibold mt-2'>{product.name}</h3>
-                        <p className='text-red-500 font-bold text-xl'>{product.price}</p>
-                    </div>
-                </div>
-            </Link>
-        ))
-    );
-
-    const renderSwiper = (index: number) => {
-        const { tabs, content } = slidesData[index];
-        const [currentTab, setCurrentTab] = useState(0);
-        const products = content;
-
-        return (
-            <div className='w-full flex flex-col gap-4 bg-[#fffbe6] p-3'>
-                <div className='flex justify-between items-center w-full h-full p-2 lg:p-4 rounded-lg'>
-                    <span className='text-xs md:text-sm lg:text-xl font-semibold w-2/3 md:w-1/2'>{tabs[currentTab].contentHeader}</span>
-                    <div className='relative flex justify-end overflow-hidden w-3/4 lg:w-full'>
-                        <div className="hidden lg:flex flex-wrap items-center gap-4">
-                            {tabs.map((item, tabIndex) => (
-                                <button
-                                    key={tabIndex}
-                                    className={`py-2 px-4 rounded-full border ${currentTab === tabIndex ? 'border-primary' : 'border-slate-200 text-gray-800'}`}
-                                    onClick={() => {
-                                        setLoading(prev => {
-                                            const newLoading = [...prev];
-                                            newLoading[index] = true;
-                                            return newLoading;
-                                        });
-                                        setTimeout(() => {
-                                            setCurrentTab(tabIndex);
-                                            setLoading(prev => {
-                                                const newLoading = [...prev];
-                                                newLoading[index] = false;
-                                                return newLoading;
-                                            });
-                                        }, 500);
-                                    }}
-                                >
-                                    <span className='text-xs lg:text-sm'>{item.label}</span>
-                                </button>
-                            ))}
-                        </div>
-                        <div className="lg:hidden w-3/4">
-                            <Swiper
-                                spaceBetween={10}
-                                slidesPerView='auto'
-                                speed={1000}
-                                breakpoints={{
-                                    0: {
-                                        slidesPerView: 1.2,
-                                    },
-                                    676: {
-                                        slidesPerView: 2.2,
-                                    },
-                                    1024: {
-                                        slidesPerView: 4,
-                                    },
-                                }}
-                            >
-                                {tabs.map((item, tabIndex) => (
-                                    <SwiperSlide key={tabIndex}>
-                                        <button
-                                            className={`py-1 md:py-2 px-2 md:px-4 rounded-full border ${currentTab === tabIndex ? 'border-primary' : 'border-slate-200 text-gray-800'}`}
-                                            onClick={() => {
-                                                setLoading(prev => {
-                                                    const newLoading = [...prev];
-                                                    newLoading[index] = true;
-                                                    return newLoading;
-                                                });
-                                                setTimeout(() => {
-                                                    setCurrentTab(tabIndex);
-                                                    setLoading(prev => {
-                                                        const newLoading = [...prev];
-                                                        newLoading[index] = false;
-                                                        return newLoading;
-                                                    });
-                                                }, 500);
-                                            }}
-                                        >
-                                            <span className='text-[10px] lg:text-sm'>{item.label}</span>
-                                        </button>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                        </div>
-                    </div>
-                </div>
-
-                {loading[index] ? (
-                    <div className="flex justify-center items-center h-64">
-                        <div className="w-16 h-16 border-4 border-t-4 border-t-yellow-400 border-gray-200 rounded-full animate-spin"></div>
-                    </div>
-                ) : (
-                    <Swiper
-                        spaceBetween={10}
-                        slidesPerView={'auto'}
-                        breakpoints={{
-                            400: {
-                                slidesPerView: 2,
-                                spaceBetween: 10,
-                            },
-                            768: {
-                                slidesPerView: 3,
-                                spaceBetween: 15,
-                            },
-                            1024: {
-                                slidesPerView: 4,
-                                spaceBetween: 20,
-                            },
-                            1280: {
-                                slidesPerView: 5,
-                                spaceBetween: 25,
-                            },
-                        }}
-                        className='w-full h-full'
-                        speed={1000}
-                        navigation={true}
-                        modules={[Navigation]}
-                    >
-                        {renderSwiperSlides(products).map((slide, slideIndex) => (
-                            <SwiperSlide key={slideIndex}>
-                                {slide}
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                )}
-            </div>
-        );
-    };
-
-    return (
-        <div>
-            <Image src='/xakho.gif' width={1820} height={1000} alt='xakho' className='w-full h-full rounded-tl-md rounded-tr-md object-cover' />
-            <div className='flex flex-col gap-4 md:gap-7 lg:gap-10 items-center'>
-                {slidesData.map((_, index) => renderSwiper(index))}
-            </div>
-            <Section>
-                <div className=''>
-                    <h3 className='mb-2 text-xl font-semibold'>KHUYẾN MÃI HOT</h3>
-                    <Swiper
-                        spaceBetween={10}
-                        slidesPerView={'auto'}
-                        breakpoints={{
-                            400: {
-                                slidesPerView: 2.5,
-                                spaceBetween: 10,
-                            },
-                            640: {
-                                slidesPerView: 3,
-                                spaceBetween: 15,
-                            },
-                            1024: {
-                                slidesPerView: 3,
-                                spaceBetween: 20,
-                            },
-                        }}
-                        className='w-full'
-                        speed={1000}
-                        navigation={true}
-                        modules={[Navigation]}
-                    >
-                        <SwiperSlide>
-                            <Image src='/banner-ad-01.jpg' width={1000} height={900} alt='banner-ad-01' className='object-cover w-full h-full block rounded-xl' />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Image src='/banner-ad-02.png' width={1000} height={900} alt='banner-ad-02' className='object-cover w-full h-full block rounded-xl' />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Image src='/banner-ad-03.png' width={1000} height={900} alt='banner-ad-03' className='object-cover w-full h-full block rounded-xl' />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <Image src='/banner-ad-01.jpg' width={1000} height={900} alt='banner-ad-03' className='object-cover w-full h-full block rounded-xl' />
-                        </SwiperSlide>
-                    </Swiper>
-                </div>
-            </Section>
-            <div className=''>
-                <h3 className='text-xl font-semibold mb-3'>ƯU ĐÃI THANH TOÁN</h3>
-                <Image src='/thanks.png' width={1820} height={1000} alt='thanks' />
-            </div>
-        </div>
-    );
+const variables = {
+	filter: {
+		category_uid: {
+			eq: 'NTc=',
+		},
+	},
+	pageSize: 900,
+	currentPage: 1,
 };
 
-export default Category;
+async function fetchProductListData() {
+	const response = await fetch('https://beta-api.bachlongmobile.com/graphql', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			query,
+			variables,
+		}),
+	});
+
+	const data = await response.json();
+	return data.data.products.items as Product[];
+}
+
+const ProductList: React.FC = () => {
+	const { data, error, isLoading } = useQuery<Product[]>({
+		queryKey: ['productListData'],
+		queryFn: fetchProductListData,
+		staleTime: 300000,
+	});
+
+	const [activeTab, setActiveTab] = useState<string>('iPhone 16');
+	const [activeSubTab, setActiveSubTab] = useState<string>('');
+	const [filteredData, setFilteredData] = useState<Product[]>([]);
+	const [visibleCount, setVisibleCount] = useState<number>(10);
+
+	const tabs = [
+		{
+			name: 'iPhone 16',
+			subTabs: ['iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16'],
+		},
+		{
+			name: 'iPhone 15',
+			subTabs: ['iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15'],
+		},
+		{
+			name: 'iPhone 14',
+			subTabs: ['iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14'],
+		},
+		{
+			name: 'iPhone 13',
+			subTabs: ['iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13', 'iPhone 13 Mini'],
+		},
+		{
+			name: 'iPhone 12',
+			subTabs: ['iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 12', 'iPhone 12 Mini'],
+		},
+		{
+			name: 'iPhone 11',
+			subTabs: ['iPhone 11 Pro Max', 'iPhone 11 Pro', 'iPhone 11'],
+		},
+		{
+			name: 'iPhone XS Max',
+			subTabs: [],
+		},
+		{
+			name: 'iPhone XS',
+			subTabs: [],
+		},
+		{
+			name: 'iPhone XR',
+			subTabs: [],
+		},
+	];
+
+	useEffect(() => {
+		const filtered = data?.filter((product) => {
+			const matchesTab =
+				(activeTab === 'iPhone 16' && activeSubTab === 'iPhone 16') ||
+				(activeTab === 'iPhone 15' && activeSubTab === 'iPhone 15') ||
+				(activeTab === 'iPhone 14' && activeSubTab === 'iPhone 14') ||
+				(activeTab === 'iPhone 13' && activeSubTab === 'iPhone 13') ||
+				(activeTab === 'iPhone 12' && activeSubTab === 'iPhone 12') ||
+				(activeTab === 'iPhone 11' && activeSubTab === 'iPhone 11') ||
+				(activeTab === 'iPhone XS' && activeSubTab === '')
+					? product.name.includes(activeTab) &&
+					  !product.name.includes('Pro') &&
+					  !product.name.includes('Plus') &&
+					  !product.name.includes('Max') &&
+					  !product.name.includes('Mini')
+					: product.name.includes(activeTab);
+
+			const matchesSubTab = activeSubTab
+				? activeSubTab.includes('Pro Max')
+					? product.name.includes('Pro Max')
+					: activeSubTab.includes('Pro')
+					? product.name.includes('Pro') && !product.name.includes('Pro Max')
+					: product.name.includes(activeSubTab)
+				: true;
+
+			return matchesTab && matchesSubTab;
+		});
+		setFilteredData(filtered || []);
+
+		const handleResize = () => {
+			if (window.innerWidth < 768) {
+				setVisibleCount(4);
+			} else {
+				setVisibleCount(10);
+			}
+		};
+
+		handleResize();
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, [data, activeTab, activeSubTab]);
+
+	if (isLoading) {
+		return (
+			<div className='flex justify-center items-center h-64'>
+				<div className='w-16 h-16 border-4 border-t-4 border-t-yellow-400 border-gray-200 rounded-full animate-spin'></div>
+			</div>
+		);
+	}
+
+	if (error) {
+		return <div className='text-center text-red-500'>Error loading data</div>;
+	}
+
+	const visibleProducts = filteredData.slice(0, visibleCount);
+
+	const loadMore = () => {
+		setVisibleCount((prevCount) => prevCount + 5);
+	};
+
+	return (
+		<Section>
+			<Container>
+				<div className='product-list'>
+					<div className='upgrade-list'>
+						<div className='container'>
+							<div className='flex gap-2'>
+								{window.innerWidth < 768 ? (
+									<Swiper
+										spaceBetween={10}
+										slidesPerView='auto'
+										breakpoints={{
+											375: {
+												slidesPerView: 3.7,
+											},
+											768: {
+												slidesPerView: 3.2,
+											},
+										}}
+									>
+										{tabs.map((tab) => (
+											<SwiperSlide key={tab.name}>
+												<button
+													key={tab.name}
+													onClick={() => {
+														setActiveTab(tab.name);
+														setActiveSubTab('');
+													}}
+													className={`px-4 py-2 rounded-md ${
+														activeTab === tab.name
+															? 'bg-red-600 text-white'
+															: 'bg-gray-200 text-black'
+													}`}
+												>
+													{tab.name}
+												</button>
+											</SwiperSlide>
+										))}
+									</Swiper>
+								) : (
+									tabs.map((tab) => (
+										<div key={tab.name} className='mb-2'>
+											<button
+												onClick={() => {
+													setActiveTab(tab.name);
+													setActiveSubTab('');
+												}}
+												className={`px-4 py-2 rounded-md ${
+													activeTab === tab.name
+														? 'bg-red-600 text-white'
+														: 'bg-gray-200 text-black'
+												}`}
+											>
+												{tab.name}
+											</button>
+										</div>
+									))
+								)}
+							</div>
+
+							{(tabs.find((tab) => tab.name === activeTab)?.subTabs?.length ?? 0) > 0 && (
+								<div className='flex mb-3 sub-tab-list'>
+									{tabs
+										.find((tab) => tab.name === activeTab)
+										?.subTabs.map((subTab) => (
+											<button
+												key={subTab}
+												onClick={() => setActiveSubTab(subTab)}
+												className={`px-3 py-1 rounded-md ${
+													activeSubTab === subTab
+														? 'bg-red-600 text-white'
+														: 'bg-gray-200 text-black'
+												} mx-1`}
+											>
+												{subTab}
+											</button>
+										))}
+								</div>
+							)}
+
+							<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+								{visibleProducts.map((product, index) => (
+									<Link href={`/detail/${product.url_key}`} key={product.id}>
+										<div className='border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300 h-full flex flex-col justify-between'>
+											<div>
+												<div className='flex justify-between items-center mb-2'>
+													<span className='text-sm text-red-500'>Trả góp 0%</span>
+												</div>
+												<div className='mb-4'>
+													<Image
+														src={product.image.url}
+														width={1400}
+														height={1200}
+														quality={100}
+														alt={`product-${index}`}
+														className='w-full h-auto'
+													/>
+												</div>
+												<h4 className='text-lg font-semibold mb-2'>{product.name}</h4>
+											</div>
+											<div className=''>
+												<div className='flex flex-col justify-between items-center'>
+													<div className='text-xl font-bold text-red-600'>
+														{product.price_range.minimum_price.final_price.value.toLocaleString(
+															'vi-VN'
+														)}{' '}
+														{product.price_range.minimum_price.final_price.currency}
+													</div>
+													{product.attributes[0]?.value && (
+														<div className='text-sm text-gray-500 line-through'>
+															{Number(product.attributes[0].value).toLocaleString(
+																'vi-VN'
+															)}{' '}
+															{product.price_range.minimum_price.final_price.currency}
+														</div>
+													)}
+												</div>
+											</div>
+										</div>
+									</Link>
+								))}
+							</div>
+							{visibleCount < filteredData.length && (
+								<div className='text-center mt-5'>
+									<button
+										onClick={loadMore}
+										className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors duration-300'
+									>
+										Xem thêm
+									</button>
+								</div>
+							)}
+						</div>
+					</div>
+				</div>
+			</Container>
+		</Section>
+	);
+};
+
+export default ProductList;
