@@ -3,62 +3,56 @@
 import { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 
 const membershipTiers = [
-	{ id: 'b-member', name: 'B-MEMBER', isNew: true, icon: '👨‍🎓' },
-	{ id: 's-vip', name: 'S-VIP', isNew: false, icon: '👑' },
-	{ id: 's-mem', name: 'S-MEM', isNew: false, icon: '🌟' },
-	{ id: 's-new', name: 'S-NEW', isNew: false, icon: '🆕' },
+	{ id: 'b-new', name: 'B-NEW', isNew: true, icon: '🆕' },
+	{ id: 'b-member', name: 'B-MEMBER', isNew: false, icon: '👑' },
+	{ id: 'b-super-vip', name: 'B-SUPER VIP', isNew: false, icon: '🌟' },
 ];
 
 const benefitsData = {
+	'b-new': {
+		conditions: ['Doanh số tích lũy >3.000.000'],
+		benefits: [
+			'Giảm giá máy 0%',
+			'Giảm giá phụ kiện 1: 2%',
+			'Giảm giá phụ kiện 2: 1%',
+			'Ưu đãi thu cũ lên đời: 5% tối đa 200.000đ',
+			'Ưu đãi sửa chữa Bạch Long Care: 5% tối đa 100.000đ',
+			'Voucher sinh nhật: 50.000đ',
+		],
+	},
+	'b-super-vip': {
+		conditions: ['Doanh số tích lũy >15.000.000'],
+		benefits: [
+			'Giảm giá máy 0.2%',
+			'Giảm giá phụ kiện 1: 3%',
+			'Giảm giá phụ kiện 2: 2%',
+			'Ưu đãi thu cũ lên đời: 5% tối đa 300.000đ',
+			'Ưu đãi sửa chữa Bạch Long Care: 5% tối đa 200.000đ',
+			'Voucher sinh nhật: 100.000đ',
+		],
+	},
 	'b-member': {
-		conditions: 'Học sinh THPT và Sinh viên Đại học, Cao Đẳng đang theo học tại các trường trên toàn quốc',
-		registerLink: 'TẠI ĐÂY',
+		conditions: ['Doanh số tích lũy >50.000.000'],
 		benefits: [
-			'Ưu đãi tân sinh viên đổi điểm thi nhận voucher đến 3 triệu mua Laptop, iPad',
-			'Ưu đãi thu cũ (áp dụng theo cấp bậc SMEMBER hiện tại của khách hàng) cho các sản phẩm mua tại CellphoneS',
-			'Giảm thêm đến 4% tối đa 800K khi mua Laptop',
-			'Giảm thêm đến 6% khi mua Điện Thoại',
-		],
-	},
-	's-vip': {
-		conditions: 'Điều kiện trở thành thành viên S-VIP',
-		registerLink: '#',
-		benefits: [
-			'Ưu đãi đặc biệt cho thành viên S-VIP',
-			'Giảm giá cao cấp trên các sản phẩm cao cấp',
-			'Dịch vụ chăm sóc khách hàng VIP',
-		],
-	},
-	's-mem': {
-		conditions: 'Điều kiện trở thành thành viên S-MEM',
-		registerLink: '#',
-		benefits: [
-			'Ưu đãi hấp dẫn cho thành viên S-MEM',
-			'Tích điểm nhanh hơn khi mua sắm',
-			'Giảm giá đặc biệt vào sinh nhật',
-		],
-	},
-	's-new': {
-		conditions: 'Điều kiện trở thành thành viên S-NEW',
-		registerLink: '#',
-		benefits: [
-			'Ưu đãi chào mừng cho thành viên mới',
-			'Giảm giá cho đơn hàng đầu tiên',
-			'Hướng dẫn mua sắm cá nhân hóa',
+			'Giảm giá máy 0.5%',
+			'Giảm giá phụ kiện 1: 5%',
+			'Giảm giá phụ kiện 2: 3%',
+			'Ưu đãi thu cũ lên đời: 5% tối đa 500.000đ',
+			'Ưu đãi sửa chữa Bạch Long Care: 5% tối đa 300.000đ',
+			'Voucher sinh nhật: 200.000đ',
 		],
 	},
 };
 
-type TierId = 'b-member' | 's-vip' | 's-mem' | 's-new';
+type TierId = 'b-new' | 'b-member' | 'b-super-vip';
 
 export default function Offers() {
 	const [activeMainTab, setActiveMainTab] = useState('benefits');
-	const [activeMembershipTier, setActiveMembershipTier] = useState('b-member');
+	const [activeMembershipTier, setActiveMembershipTier] = useState('b-new');
 
 	return (
 		<div className='p-0 md:p-4 lg:p-6 min-h-screen flex flex-col gap-6'>
@@ -66,16 +60,16 @@ export default function Offers() {
 				<TabsList className='w-full mb-4 sm:mb-6 flex gap-1 justify-center p-0'>
 					<TabsTrigger
 						value='benefits'
-						className={`w-full text-sm sm:text-lg border font-semibold text-center transition-all shadow-lg duration-300 ease-in-out transform ${
-							activeMainTab === 'benefits' ? 'border-red-500' : 'text-gray-700 '
+						className={`w-full text-sm sm:text-lg border font-semibold text-center transition-all duration-300 ease-in-out transform ${
+							activeMainTab === 'benefits' ? 'border-[#fff200] shadow-lg' : 'text-gray-700 '
 						} rounded-l-lg`}
 					>
 						Ưu đãi Bmember
 					</TabsTrigger>
 					<TabsTrigger
 						value='gifts'
-						className={`w-full text-sm sm:text-lg border font-semibold text-center transition-all shadow-lg duration-300 ease-in-out transform ${
-							activeMainTab === 'gifts' ? 'border-red-500' : 'text-gray-700 '
+						className={`w-full text-sm sm:text-lg border font-semibold text-center transition-all duration-300 ease-in-out transform ${
+							activeMainTab === 'gifts' ? 'border-[#fff200] shadow-lg' : 'text-gray-700 '
 						} rounded-r-lg`}
 					>
 						Quà của bạn
@@ -84,7 +78,7 @@ export default function Offers() {
 
 				<TabsContent value='benefits'>
 					<Card className='border-none shadow-lg'>
-						<CardHeader className='bg-gradient-to-r from-red-600 to-red-700 rounded-t-lg'>
+						<CardHeader className='bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-t-lg'>
 							<CardTitle className='text-center text-lg sm:text-2xl font-bold text-white py-3 sm:py-4'>
 								⭐ CẬP NHẬT ƯU ĐÃI HẠNG THÀNH VIÊN BMEMBER ⭐
 							</CardTitle>
@@ -94,64 +88,59 @@ export default function Offers() {
 								Vui lòng chọn hạng thành viên để xem chi tiết ưu đãi
 							</p>
 							<Tabs value={activeMembershipTier} onValueChange={setActiveMembershipTier}>
-								<TabsList className='flex flex-wrap justify-center gap-2 sm:gap-4 mb-6 sm:mb-8'>
+								<TabsList className='flex justify-center gap-4 mb-6 sm:mb-8 h-full bg-white'>
 									{membershipTiers.map((tier) => (
 										<TabsTrigger
 											key={tier.id}
 											value={tier.id}
-											className='flex flex-col items-center focus:outline-none'
+											className='flex flex-col items-center focus:outline-none transition-transform duration-300 hover:scale-105 !shadow-none'
 										>
 											<div
-												className={`relative w-16 h-16 sm:w-24 sm:h-24 rounded-full ${
+												className={`relative overflow-hidden w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center transition-all duration-300 ${
 													activeMembershipTier === tier.id
-														? 'bg-red-100 border-4 border-red-500'
+														? 'bg-[#32302D] border-4 border-[#fff200] shadow-md'
 														: 'bg-white border-4 border-gray-300 hover:border-gray-400'
-												} flex flex-col items-center justify-center transition-all duration-200 ease-in-out`}
+												}`}
 											>
-												{tier.isNew && (
-													<Badge className='absolute -top-2 -right-2 bg-yellow-400 text-black font-bold px-1 sm:px-2 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs shadow-sm'>
-														MỚI
-													</Badge>
-												)}
-												<span className='text-xl sm:text-3xl mb-0.5 sm:mb-1'>{tier.icon}</span>
+												<Image
+													src={`/profile/bg-level.webp`}
+													alt={tier.name}
+													width={100}
+													height={100}
+													className='absolute top-0 left-0 w-full h-full object-cover z-0'
+												/>
 												<span
-													className={`text-[10px] sm:text-xs font-bold ${
-														activeMembershipTier === tier.id
-															? 'text-red-500'
-															: 'text-gray-700'
+													className={`mt-2 text-xs font-bold relative z-10 text-[#fff200] 
 													}`}
 												>
 													{tier.name}
 												</span>
 											</div>
-											{activeMembershipTier === tier.id && (
-												<div className='w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full mt-1 sm:mt-2'></div>
-											)}
 										</TabsTrigger>
 									))}
 								</TabsList>
+
 								{membershipTiers.map((tier) => (
 									<TabsContent key={tier.id} value={tier.id}>
 										<div className='space-y-4 sm:space-y-6 bg-white p-4 sm:p-6 rounded-lg shadow-inner'>
 											<div className='flex items-center space-x-2 sm:space-x-3'>
 												<CheckCircle2 className='text-green-500 w-5 h-5 sm:w-6 sm:h-6' />
-												<span className='font-semibold text-base sm:text-lg text-gray-800'>
-													ĐIỀU KIỆN
+												<span className='font-semibold text-base sm:text-lg text-gray-800 uppercase'>
+													DOANH SỐ TÍCH LŨY
 												</span>
 											</div>
-											<p className='ml-7 sm:ml-9 text-sm sm:text-base text-gray-600'>
-												{benefitsData[tier.id as TierId].conditions}
-											</p>
-											<p className='ml-7 sm:ml-9 text-sm sm:text-base text-gray-600'>
-												Đăng ký nhập hội {tier.name} siêu nhanh{' '}
-												<a href='#' className='text-blue-500 underline font-medium'>
-													{benefitsData[tier.id as TierId].registerLink}
-												</a>
-											</p>
+											{benefitsData[tier.id as TierId].conditions.map((condition, index) => (
+												<p
+													key={index}
+													className='ml-7 sm:ml-9 text-sm sm:text-base text-gray-600'
+												>
+													{condition}
+												</p>
+											))}
 											<div className='flex items-center space-x-2 sm:space-x-3 mt-4 sm:mt-6'>
 												<CheckCircle2 className='text-green-500 w-5 h-5 sm:w-6 sm:h-6' />
-												<span className='font-semibold text-base sm:text-lg text-gray-800'>
-													ƯU ĐÃI MUA HÀNG
+												<span className='font-semibold text-base sm:text-lg text-gray-800 uppercase'>
+													Chi tiết ưu đãi
 												</span>
 											</div>
 											{benefitsData[tier.id as TierId].benefits.map((benefit, index) => (

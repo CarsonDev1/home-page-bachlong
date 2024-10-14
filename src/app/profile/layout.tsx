@@ -103,7 +103,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 								</div>
 							</div>
 						</div>
-						<div className='px-0 md:px-4 lg:pt-0 lg:pb-6 lg:px-6'>{children}</div>
+						<div className='px-0 md:px-4 lg:pt-0 lg:pb-0 lg:px-6'>{children}</div>
 					</main>
 				</div>
 			</Container>
