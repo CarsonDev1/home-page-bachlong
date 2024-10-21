@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import Section from '@/app/components/Section';
-import React, { useState } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Thumbs } from 'swiper/modules';
 import Container from '@/app/components/Container';
@@ -58,7 +58,7 @@ async function fetchProductListData() {
 }
 
 const DetailPage = () => {
-	const { data, error, isLoading } = useQuery<Product>({
+	const { data } = useQuery<Product>({
 		queryKey: ['productListData'],
 		queryFn: fetchProductListData,
 		staleTime: 300000,

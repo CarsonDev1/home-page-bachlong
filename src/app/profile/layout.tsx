@@ -3,20 +3,7 @@ import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-	Home,
-	Clock,
-	Shield,
-	Gift,
-	GraduationCap,
-	Users,
-	User,
-	Link,
-	HelpCircle,
-	MessageSquare,
-	LogOut,
-	Menu,
-} from 'lucide-react';
+import { Home, Clock, Gift, Users, User, HelpCircle, MessageSquare, LogOut, Menu } from 'lucide-react';
 import Section from '@/app/components/Section';
 import Container from '@/app/components/Container';
 import { useRouter } from 'next/navigation';
@@ -38,7 +25,7 @@ type SidebarProps = {
 	isMobile?: boolean;
 };
 
-function Sidebar({ activeItem, setActiveItem, isMobile = false }: SidebarProps) {
+function Sidebar({ activeItem, setActiveItem }: SidebarProps) {
 	const router = useRouter();
 
 	const handleNavigation = (path: string) => {
