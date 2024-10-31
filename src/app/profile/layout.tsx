@@ -59,7 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 			<Container>
 				<div className='pt-44 lg:pt-24 flex flex-col lg:flex-row min-h-screen'>
 					<aside className='hidden lg:block w-64 bg-white p-4 shadow'>
-						<div className='sticky top-0 pt-4'>
+						<div className='sticky top-1/4 pt-4'>
 							<Sidebar activeItem={activeItem} setActiveItem={setActiveItem} />
 						</div>
 					</aside>
