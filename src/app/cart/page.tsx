@@ -90,7 +90,7 @@ export default function Component() {
 											height={144}
 											className='rounded-lg mb-2'
 										/>
-										<h3 className='font-medium'>iPad Pro 11" 2021</h3>
+										<h3 className='font-medium'>iPad Pro 11 2021</h3>
 										<p className='text-sm text-muted-foreground mb-2'>Từ 19.990.000 VND</p>
 										<Button variant='outline' className='w-full'>
 											Thêm vào giỏ hàng
