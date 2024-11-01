@@ -105,7 +105,7 @@ const Header = () => {
 									<span className='text-xs font-semibold'>Tra cứu đơn</span>
 								</div>
 							</Link>
-							<Link href='#'>
+							<Link href='/cart'>
 								<div className='flex flex-col items-center bg-transparent md:bg-secondary p-2 rounded-md relative'>
 									<IoCartOutline className='text-xl' />
 									<span className='text-xs font-semibold'>Giỏ hàng</span>
