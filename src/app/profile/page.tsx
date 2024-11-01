@@ -1,22 +1,13 @@
 'use client';
 
 import HotSaleBanner from '@/app/pages/profile/hot-sale';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Home, Clock, Shield, Gift, Users } from 'lucide-react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Image from 'next/image';
-
-const menuItems = [
-	{ icon: <Home />, label: 'Trang chủ' },
-	{ icon: <Clock />, label: 'Lịch sử mua hàng' },
-	{ icon: <Shield />, label: 'Tra cứu bảo hành' },
-	{ icon: <Gift />, label: 'Ưu đãi của bạn' },
-	{ icon: <Users />, label: 'Hạng thành viên' },
-];
+import Membership from '@/app/profile/membership/page';
 
 const promotions = [
 	{
@@ -49,11 +40,12 @@ const promotions = [
 export default function Profile() {
 	return (
 		<div className='p-0 md:p-4 lg:p-6 min-h-screen flex flex-col gap-6'>
-			<div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+			<Membership />
+			<div className='grid grid-cols-1 sm:grid-cols-2 gap-6  '>
 				<Card className='border border-gray-200 shadow-sm'>
 					<CardContent className='p-6'>
 						<h3 className='text-3xl font-bold text-primary'>2</h3>
-						<p className='text-lg text-gray-600'>đơn hàng</p>
+						<p className='text-lg text-gray-600'>đơn hàng đã thanh toán</p>
 					</CardContent>
 				</Card>
 				<Card className='border border-gray-200 shadow-sm'>
@@ -62,19 +54,6 @@ export default function Profile() {
 						<p className='text-lg text-gray-600'>Tổng tiền tích lũy</p>
 					</CardContent>
 				</Card>
-			</div>
-
-			<div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4'>
-				{menuItems.map((item, index) => (
-					<Button
-						key={index}
-						variant='outline'
-						className='flex flex-col items-center p-8 rounded-lg shadow-md hover:bg-gray-100 transition-all duration-300 ease-in-out'
-					>
-						<div className='flex items-center justify-center mb-2 size-6 text-primary'>{item.icon}</div>
-						<span className='text-sm font-medium text-center text-gray-700'>{item.label}</span>
-					</Button>
-				))}
 			</div>
 
 			<div>

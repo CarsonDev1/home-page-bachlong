@@ -86,6 +86,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 											<h2 className='text-lg font-bold'>ANH VŨ</h2>
 											<p className='text-sm text-gray-500'>0915606492</p>
 										</div>
+										<div className='rounded-full py-1 px-2 bg-slate-100'>B-NULL</div>
 									</div>
 								</div>
 							</div>
