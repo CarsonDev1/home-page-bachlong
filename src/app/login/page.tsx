@@ -14,7 +14,7 @@ export default function Component() {
 		<div className='bg-[#fff5e0] flex flex-col items-center justify-center p-4 relative pt-56 w-full'>
 			{/* Background illustrations */}
 			<div className='absolute top-0 left-0 w-full h-full hidden z-0 md:block'>
-				<Image src='/bg-login.png' alt='Illustration' width={1920} height={1200} className='object-contain' />
+				<Image src='/bg-login.png' alt='Illustration' width={1920} height={1200} className='object-cover' />
 			</div>
 			{/* <div className='absolute right-0 bottom-0 w-72 h-72 hidden md:block'>
 				<Image src='/placeholder.svg' alt='Illustration' width={300} height={400} className='object-contain' />
