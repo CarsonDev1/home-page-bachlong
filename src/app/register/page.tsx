@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 export default function Component() {
 	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	return (
 		<div className='min-h-screen bg-[#fff5e0] flex flex-col items-center justify-center p-4 relative pt-56'>
@@ -16,26 +17,32 @@ export default function Component() {
 			<div className='absolute top-0 left-0 w-full h-full hidden z-0 md:block'>
 				<Image src='/bg-login.png' alt='Illustration' width={1920} height={1200} className='object-contain' />
 			</div>
-			{/* <div className='absolute right-0 bottom-0 w-72 h-72 hidden md:block'>
-				<Image src='/placeholder.svg' alt='Illustration' width={300} height={400} className='object-contain' />
-			</div> */}
 
 			{/* Header Logo */}
 			<div className='flex items-center gap-2 mb-8 relative z-10'>
 				<Image src='/auth.png' alt='BachLong Mobile' width={150} height={40} className='h-10 w-auto' />
 			</div>
 
-			{/* Login Card */}
+			{/* Registration Card */}
 			<Card className='w-full max-w-md relative z-20'>
 				<CardContent className='p-6'>
 					<div className='text-center mb-6'>
 						<h1 className='text-lg mb-1'>
 							Chào mừng đến <span className='text-red-500 font-medium'>BachLong Mobile</span>
 						</h1>
-						<h2 className='text-2xl font-bold'>Đăng nhập</h2>
+						<h2 className='text-2xl font-bold'>Đăng ký</h2>
 					</div>
 
 					<form className='space-y-4'>
+						{/* Full Name Field */}
+						<div className='space-y-2'>
+							<label className='text-sm'>
+								Họ và Tên <span className='text-red-500'>*</span>
+							</label>
+							<Input type='text' placeholder='Nguyen Van A' className='bg-[#f8fafc]' />
+						</div>
+
+						{/* Email/Phone Field */}
 						<div className='space-y-2'>
 							<label className='text-sm'>
 								Số điện thoại/email <span className='text-red-500'>*</span>
@@ -43,6 +50,7 @@ export default function Component() {
 							<Input type='text' placeholder='test123@gmail.com' className='bg-[#f8fafc]' />
 						</div>
 
+						{/* Password Field */}
 						<div className='space-y-2'>
 							<label className='text-sm'>
 								Mật khẩu <span className='text-red-500'>*</span>
@@ -63,10 +71,25 @@ export default function Component() {
 							</div>
 						</div>
 
-						<div className='text-right'>
-							<Link href='#' className='text-sm text-gray-500 hover:text-gray-700'>
-								Quên mật khẩu?
-							</Link>
+						{/* Confirm Password Field */}
+						<div className='space-y-2'>
+							<label className='text-sm'>
+								Xác nhận mật khẩu <span className='text-red-500'>*</span>
+							</label>
+							<div className='relative'>
+								<Input
+									type={showConfirmPassword ? 'text' : 'password'}
+									placeholder='••••••'
+									className='bg-[#f8fafc] pr-10'
+								/>
+								<button
+									type='button'
+									onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+									className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500'
+								>
+									{showConfirmPassword ? <EyeOff className='h-4 w-4' /> : <Eye className='h-4 w-4' />}
+								</button>
+							</div>
 						</div>
 
 						<div className='relative'>
@@ -74,7 +97,7 @@ export default function Component() {
 								<span className='w-full border-t' />
 							</div>
 							<div className='relative flex justify-center text-xs uppercase'>
-								<span className='bg-white px-2 text-muted-foreground'>Hoặc đăng nhập với</span>
+								<span className='bg-white px-2 text-muted-foreground'>Hoặc đăng ký với</span>
 							</div>
 						</div>
 
@@ -88,12 +111,12 @@ export default function Component() {
 							Facebook
 						</button>
 
-						<Button className='w-full bg-blue-600 hover:bg-blue-700'>Đăng nhập</Button>
+						<Button className='w-full bg-blue-600 hover:bg-blue-700'>Đăng ký</Button>
 
 						<div className='text-center text-sm'>
-							Bạn chưa có tài khoản?{' '}
-							<Link href='/register' className='text-blue-600 hover:text-blue-700'>
-								Đăng ký ngay
+							Bạn đã có tài khoản?{' '}
+							<Link href='/login' className='text-blue-600 hover:text-blue-700'>
+								Đăng nhập
 							</Link>
 						</div>
 					</form>
