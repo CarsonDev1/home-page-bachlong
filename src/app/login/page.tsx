@@ -83,7 +83,7 @@ export default function Component() {
 							Google
 						</button>
 
-						<button className='w-full flex items-center justify-center gap-2 border rounded-md p-2 bg-[#fff] hover:bg-[#166fe5]'>
+						<button className='w-full flex items-center justify-center gap-2 border rounded-md p-2 bg-[#fff]'>
 							<Image src='/fb.svg' alt='Facebook' width={50} height={20} className='w-8 h-8' />
 							Facebook
 						</button>
