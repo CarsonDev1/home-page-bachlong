@@ -12,7 +12,7 @@ export default function Component() {
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	return (
-		<div className='min-h-screen bg-[#fff5e0] flex flex-col items-center justify-center p-4 relative pt-56'>
+		<div className='bg-[#fff5e0] flex flex-col items-center justify-center p-4 relative pt-56 w-full'>
 			{/* Background illustrations */}
 			<div className='absolute top-0 left-0 w-full h-full hidden z-0 md:block'>
 				<Image src='/bg-login.png' alt='Illustration' width={1920} height={1200} className='object-contain' />
