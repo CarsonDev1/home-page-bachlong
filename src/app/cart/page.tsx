@@ -7,15 +7,14 @@ import Image from 'next/image';
 export default function Component() {
 	return (
 		<div className='container mx-auto pt-60'>
+			<div className='text-sm breadcrumbs mb-4'>
+				<ul className='flex gap-2 text-muted-foreground'>
+					<li>Trang chủ</li>
+					<li>Giỏ hàng</li>
+				</ul>
+			</div>
 			<div className='flex flex-col lg:flex-row gap-8'>
 				<div className='flex-1'>
-					<div className='text-sm breadcrumbs mb-4'>
-						<ul className='flex gap-2 text-muted-foreground'>
-							<li>Trang chủ</li>
-							<li>Giỏ hàng</li>
-						</ul>
-					</div>
-
 					<Card className='mb-8'>
 						<CardContent className='p-6'>
 							<div className='space-y-6'>
@@ -129,7 +128,7 @@ export default function Component() {
 					</Card>
 				</div>
 
-				<div className='lg:w-80'>
+				<div className='lg:w-80 h-fit top-[20%] left-0 sticky'>
 					<Card>
 						<CardContent className='p-6 space-y-4'>
 							<h2 className='font-medium flex gap-2 items-center'>
