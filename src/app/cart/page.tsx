@@ -68,7 +68,7 @@ export default function Component() {
 									<h4 className='font-medium mb-4'>Khuyến mãi</h4>
 									<div className='flex gap-2'>
 										<Input placeholder='Nhập mã giảm giá' className='max-w-xs' />
-										<Button>Áp dụng</Button>
+										<Button variant='outline'>Áp dụng</Button>
 									</div>
 								</div>
 							</div>
