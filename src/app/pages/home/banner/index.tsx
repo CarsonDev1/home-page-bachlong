@@ -11,6 +11,8 @@ import { IoIosArrowForward } from 'react-icons/io';
 import Section from '@/app/components/Section';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { UrlObject } from 'url';
 
 const categories = [
 	{ name: 'Điện thoại', image: '/category-01.webp' },
@@ -78,7 +80,7 @@ async function fetchBannerData() {
 }
 
 const Banner = () => {
-	const { data, error, isLoading } = useQuery({
+	const { data } = useQuery({
 		queryKey: ['fetchBannerData'],
 		queryFn: fetchBannerData,
 		staleTime: 300000,
@@ -86,7 +88,7 @@ const Banner = () => {
 
 	const imageData = data?.[0]?.Banner?.items?.[0]?.media;
 	const categoryData = data?.[0]?.Banner?.items;
-	const dataSale = categoryData?.filter((cateData: any) => cateData.name.startsWith('Tri Ân Đặc Quyền'));
+	const dataSale = categoryData?.filter((cateData: { name: string }) => cateData.name.startsWith('Tri Ân Đặc Quyền'));
 
 	return (
 		<Section>
@@ -175,13 +177,18 @@ const Banner = () => {
 				))}
 			</div>
 			<div className='grid grid-cols-6 gap-2'>
-				{dataSale?.map((promotion: any, index: number) => (
-					<div className='mx-auto' key={index}>
-						<Link href={promotion?.link}>
-							<Image src={promotion?.media} width={300} height={300} alt={promotion.name} />
-						</Link>
-					</div>
-				))}
+				{dataSale?.map(
+					(
+						promotion: { link: string | UrlObject; media: string | StaticImport; name: string },
+						index: number
+					) => (
+						<div className='mx-auto' key={index}>
+							<Link href={promotion?.link}>
+								<Image src={promotion?.media} width={300} height={300} alt={promotion.name} />
+							</Link>
+						</div>
+					)
+				)}
 			</div>
 		</Section>
 	);
